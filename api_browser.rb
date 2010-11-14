@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << './app/models/'
+require 'net/http'
+require 'uri'
 require 'active_record'
 require 'yaml'
 
@@ -18,3 +20,7 @@ rescue ActiveRecord::StatementInvalid
   puts 'Trying to do it for you...'
   system 'rake db:migrate'
 end
+
+uri = URI.parse("http://github.com/api/v2/yaml/user/show/#{$user.login}")
+
+Net::HTTP.get_print uri
