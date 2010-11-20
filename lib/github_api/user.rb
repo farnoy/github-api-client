@@ -9,6 +9,10 @@ module GitHub
       return GitHub::Browser.get "/user/show/#{login}"
     end
     
+    def set(route = [], options = {})
+      return GitHub::Browser.post "/#{route.join('/')}", options.merge(self.auth_info)
+    end
+    
     def auth_info
       {:login => self.login, :token => self.token}
     end
