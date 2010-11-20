@@ -1,11 +1,12 @@
 module GitHub
-  class User
+  class User < Base
     attr_accessor :login, :token
     
     def get(login)
       if login == :self
-        GitHub::Browser.get "/user/show/#{self.login}"
+        login = self.login
       end
+      return GitHub::Browser.get "/user/show/#{login}"
     end
   end
 end

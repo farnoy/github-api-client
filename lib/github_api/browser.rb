@@ -8,7 +8,8 @@ module GitHub
     end
     
     def self.get(uri)
-      Net::HTTP.get_print URI.parse(self.base_uri + uri)
+      response = Net::HTTP.get URI.parse(self.base_uri + uri)
+      p YAML::load response
     end
   end
 end
