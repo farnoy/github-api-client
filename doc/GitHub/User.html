@@ -38,8 +38,8 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="../app/models/user_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="app/models/user.rb">app/models/user.rb</a></li>
+						<li><a href="../lib/github_api/user_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="lib/github_api/user.rb">lib/github_api/user.rb</a></li>
 					
 					</ul>
 				</div>
@@ -55,7 +55,7 @@
 			<div id="parent-class-section" class="section">
 				<h3 class="section-header">Parent</h3>
 				
-				<p class="link">ActiveRecord::Base</p>
+				<p class="link"><a href="Base.html">GitHub::Base</a></p>
 				
 			</div>
 			
@@ -64,6 +64,17 @@
 			
 
 			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-get">#get</a></li>
+					
+					<li><a href="#method-i-post">#post</a></li>
+					
+				</ul>
+			</div>
 			
 
 			<!-- Included Modules -->
@@ -102,6 +113,8 @@
 				
 					<li><a href="../GitHub.html">GitHub</a></li>
 				
+					<li><a href="../GitHub/Base.html">GitHub::Base</a></li>
+				
 					<li><a href="../GitHub/Browser.html">GitHub::Browser</a></li>
 				
 					<li><a href="../GitHub/User.html">GitHub::User</a></li>
@@ -130,13 +143,30 @@
 			<h3 class="section-header">Attributes</h3>
 
 			
-			<div id="name-attribute-method" class="method-detail">
-				<a name="name"></a>
+			<div id="login-attribute-method" class="method-detail">
+				<a name="login"></a>
 				
-				<a name="name="></a>
+				<a name="login="></a>
 				
 				<div class="method-heading attribute-method-heading">
-					<span class="method-name">name</span><span
+					<span class="method-name">login</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="token-attribute-method" class="method-detail">
+				<a name="token"></a>
+				
+				<a name="token="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">token</span><span
 						class="attribute-access-type">[RW]</span>
 				</div>
 
@@ -152,6 +182,87 @@
 
 		<!-- Methods -->
 		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="get-method" class="method-detail ">
+				<a name="method-i-get"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">get</span><span
+						class="method-args">(login)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="get-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/github_api/user.rb, line 5</span>
+ 5:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">login</span>)
+ 6:       <span class="ruby-keyword kw">if</span> [<span class="ruby-value">:self</span>, <span class="ruby-value">:me</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">login</span>
+ 7:         <span class="ruby-identifier">login</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">login</span>
+ 8:       <span class="ruby-keyword kw">end</span>
+ 9:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">GitHub</span><span class="ruby-operator">::</span><span class="ruby-constant">Browser</span>.<span class="ruby-identifier">get</span> <span class="ruby-node">&quot;/user/show/#{login}&quot;</span>
+10:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="post-method" class="method-detail ">
+				<a name="method-i-post"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">post</span><span
+						class="method-args">(login, options = {})</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="post-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/github_api/user.rb, line 12</span>
+12:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">post</span>(<span class="ruby-identifier">login</span>, <span class="ruby-identifier">options</span> = {})
+13:       <span class="ruby-keyword kw">if</span> [<span class="ruby-value">:self</span>, <span class="ruby-value">:me</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">login</span>
+14:         <span class="ruby-identifier">login</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">login</span>
+15:       <span class="ruby-keyword kw">end</span>
+16:       <span class="ruby-identifier">auth_info</span> = {<span class="ruby-value">:login</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">login</span>, <span class="ruby-value">:token</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token</span>}
+17:       <span class="ruby-keyword kw">return</span> <span class="ruby-constant">GitHub</span><span class="ruby-operator">::</span><span class="ruby-constant">Browser</span>.<span class="ruby-identifier">post</span> <span class="ruby-node">&quot;/user/show/#{login}&quot;</span>, <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">auth_info</span>)
+18:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
 
 	</div>
 
