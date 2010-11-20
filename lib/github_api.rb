@@ -13,7 +13,7 @@ begin
   $user.build YAML::load_file('config/secrets.yml')[:user]
   
 rescue Errno::ENOENT
-  puts "Could not load config/secrets.yml, did you defined it?"
+  puts "Could not load config/secrets.yml, have you defined it?"
 end
 
 module GitHub
