@@ -13,7 +13,8 @@ module GitHub
       if [:self, :me].include? login
         login = self.login
       end
-      return GitHub::Browser.post "/user/show/#{login}", {:login => self.login, :token => self.token}
+      auth_info = {:login => self.login, :token => self.token}
+      return GitHub::Browser.post "/user/show/#{login}", options.merge(auth_info)
     end
   end
 end
