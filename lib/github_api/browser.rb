@@ -9,7 +9,11 @@ module GitHub
     
     def self.get(uri)
       response = Net::HTTP.get URI.parse(self.base_uri + uri)
-      p YAML::load response
+      y = YAML::load response
+    end
+    
+    def self.post(uri, options = {})
+      req = Net::HTTP.post_form URI.parse(self.base_uri + uri), options
     end
   end
 end
