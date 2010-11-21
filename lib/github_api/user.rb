@@ -1,6 +1,8 @@
 module GitHub
   class User < Base
-    %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count).each do |attr|
+    attr_accessor :attributes
+    @attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email)
+    @attributes.each do |attr|
       attr_accessor attr
     end
     
@@ -20,13 +22,16 @@ module GitHub
         login = self.login
       end
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
-      objects = []
-      users.each do |user|
-        u = GitHub::User.new
-        u.build(YAML::load(GitHub::Browser.get("/user/show/#{user}"))['user'])
-        p u
-      end
-      return objects
+      
+      # Loading each user (not effective with 688 followers like schacon has)
+      #objects = []
+      #users.each do |user|
+      #  puts user
+      #  u = GitHub::User.new
+      #  u.build(YAML::load(GitHub::Browser.get("/user/show/#{user}"))['user'])
+      #  objects << GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/show/#{user}"))
+      #end
+      return users
     end
     
     def auth_info
