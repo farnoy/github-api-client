@@ -6,14 +6,17 @@ module GitHub
       attr_accessor attr
     end
     
-    # Gets information about GitHub::User.
+    # Fetches info about current_user from GitHub
+    # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
+    def get
+      self.build YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
+      self
+    end
+    
+    # Static function, that gets information about GitHub::User by login.
     # === Examples
-    #  GitHub::User.get(:self) #=> GitHub::User
     #  GitHub::User.get('defunkt') #=> GitHub::User
     def self.get(login)
-      if [:self, :me].include? login
-        login = self.login
-      end
       return GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/show/#{login}"))
     end
     
