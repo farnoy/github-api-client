@@ -9,6 +9,4 @@ require 'github_api'
 #puts $user.post(:me)
 #$user.set ['user', 'show', $user.login], 'values[email]' => 'test@api.com'
 #puts $user.followers('schacon')
-YAML::load(GitHub::Browser.get('/user/search/chacon'))['users'].each do |user|
-  puts user['name']
-end
+p GitHub::User.get('schacon')

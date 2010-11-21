@@ -17,5 +17,5 @@ rescue Errno::ENOENT
   puts "Could not load config/secrets.yml, have you defined it?"
 end
 
-module GitHub
+module GitHub #:nodoc:
 end

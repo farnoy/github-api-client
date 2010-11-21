@@ -1,22 +1,27 @@
 module GitHub
+  # Basic model, stores retrieved user and his associations
   class User < Base
     attr_accessor :attributes
-    @attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email)
-    @attributes.each do |attr|
+    @attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email).each do |attr|
       attr_accessor attr
     end
     
-    def get(login)
+    # Gets information about GitHub::User.
+    # === Examples
+    #  GitHub::User.get(:self) #=> GitHub::User
+    #  GitHub::User.get('defunkt') #=> GitHub::User
+    def self.get(login)
       if [:self, :me].include? login
         login = self.login
       end
-      return GitHub::Browser.get "/user/show/#{login}"
+      return GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/show/#{login}"))
     end
     
-    def set(route = [], options = {})
+    def set(route = [], options = {}) #:nodoc:
       return GitHub::Browser.post "/#{route.join('/')}", options.merge(self.auth_info)
     end
     
+    # Returns an array with logins of GitHub::User followers
     def followers(login)
       if [:self, :me].include? login
         login = self.login
@@ -34,10 +39,13 @@ module GitHub
       return users
     end
     
+    # Collects information from authenticated user.
+    # Used by post requests to authenticate
     def auth_info
       {:login => self.login, :token => self.token}
     end
     
+    # Experimental, sets information about GitHub::User or returns authenticated :self 
     def post(login, options = {})
       if [:self, :me].include? login
         login = self.login
