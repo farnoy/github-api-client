@@ -1,4 +1,3 @@
-require "rails"
 %w(
   doc
 ).each do |task|
