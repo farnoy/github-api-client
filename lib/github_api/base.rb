@@ -30,11 +30,21 @@ module GitHub
       yaml = YAML::load yaml
       object = case
         when yaml.has_key?('user') then [GitHub::User, 'user']
+        when yaml.has_key?('users') then [[GitHub::User], 'users']
       end
-      object[0] = object.first.new
-      object.first.build yaml[object[1]]
-      
-      object.first
+      if object.first.class == Array
+        objects = []
+        yaml[object[1]].each do |single_yaml|
+          o = object.first.first.new
+          o.build single_yaml
+          objects << o
+        end
+        objects
+      else
+        object[0] = object.first.new
+        object.first.build yaml[object[1]]
+        object.first
+      end
     end
   end
 end

@@ -2,9 +2,14 @@ module GitHub
   # Basic model, stores retrieved user and his associations
   class User < Base
     attr_accessor :attributes
-    @attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email).each do |attr|
+    @attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email fullname language followers score record username repos pushed created).each do |attr|
       attr_accessor attr
     end
+    
+    def login_safe;@login || @name;end
+    def followers_safe;@followers_count || @followers; end
+    def repos_safe;@public_repo_count || @repos; end
+    def name_safe;@fullname || @name; end
     
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
@@ -18,6 +23,10 @@ module GitHub
     #  GitHub::User.get('defunkt') #=> GitHub::User
     def self.get(login)
       return GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/show/#{login}"))
+    end
+    
+    def self.search(login)
+      return GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/search/#{login}"))
     end
     
     def set(route = [], options = {}) #:nodoc:

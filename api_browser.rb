@@ -3,10 +3,11 @@ $LOAD_PATH << './lib/' << './lib/github_api/'
 
 require 'github_api'
 
-#yaml = YAML::load $user.get('schacon')
-#puts GitHub::User.new.build yaml['user']
-#u = GitHub::Helper.build_from_yaml yaml
+GitHub::User.search(' ').each do |user|
+  puts user.name_safe + "  " + user.followers_safe.to_s + "  " + user.repos_safe.to_s
+end
+#p $user.get
 #puts $user.post(:me)
 #$user.set ['user', 'show', $user.login], 'values[email]' => 'test@api.com'
 #puts $user.followers('schacon')
-p GitHub::User.get('schacon')
+#p GitHub::User.get('schacon')
