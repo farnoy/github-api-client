@@ -6,12 +6,14 @@ require 'uri'
 require 'yaml'
 require 'singleton'
 require 'active_record'
+
+ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => 'ruby.db'
+
 require 'base'
 require 'user'
 require 'browser'
 require 'rainbow'
 
-ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => 'ruby.db'
 
 begin
   unless $user = GitHub::User.where(YAML::load_file('config/secrets.yml')['user']).first

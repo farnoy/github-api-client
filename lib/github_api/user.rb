@@ -1,11 +1,9 @@
 module GitHub
   # Basic model, stores retrieved user and his associations
   class User < ActiveRecord::Base
-    #attr_accessor :attributes
-    #@attributes = %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count name company location blog email fullname language followers score record username repos pushed created).each do |attr|
-    #  attr_accessor attr
-    #end
-    
+    has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'following_followers', :class_name => 'User'
+    has_and_belongs_to_many :following, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'following_followers', :class_name => 'User'
+     
     def login_safe;login || name;end
     def followers_safe;followers_count || followers;end
     def repos_safe;public_repo_count || repos;end
@@ -15,7 +13,7 @@ module GitHub
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
     def get
-      self.find_or_create_by_name YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
+      self.find_or_create_by_login YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
       self
     end
     
@@ -23,13 +21,13 @@ module GitHub
     # === Examples
     #  GitHub::User.get('defunkt') #=> GitHub::User
     def self.get(login)
-      return GitHub::User.find_or_create_by_name YAML::load(GitHub::Browser.get("/user/show/#{login}"))['user']
+      return GitHub::User.find_or_create_by_login YAML::load(GitHub::Browser.get("/user/show/#{login}"))['user']
     end
     
     def self.search(login)
       users = []
       YAML::load(GitHub::Browser.get("/user/search/#{login}"))['users'].each do |user|
-        p GitHub::User.find_or_create_by_name(user)
+        p GitHub::User.find_or_create_by_login(user)
       end
     end
     
@@ -38,22 +36,23 @@ module GitHub
     end
     
     # Returns an array with logins of GitHub::User followers
-    #def followers(login)
-    #  if [:self, :me].include? login
-    #    login = self.login
-    #  end
-    #  users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
+    def get_followers(login)
+      if [:self, :me].include? login
+        login = self.login
+      end
+      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
       # Loading each user (not effective with 688 followers like schacon has)
-      #objects = []
-      #users.each do |user|
-      #  puts user
-      #  u = GitHub::User.new
-      #  u.build(YAML::load(GitHub::Browser.get("/user/show/#{user}"))['user'])
-      #  objects << GitHub::Helper.build_from_yaml(GitHub::Browser.get("/user/show/#{user}"))
-      #end
-    #  return users
-    #end
+      objects = []
+      i = 1
+      users.each do |user|
+        puts "#{users.length.to_s} / #{i.to_s}"
+        i = i + 1
+        p GitHub::User.get(user)
+        #objects << u
+      end
+      return objects
+    end
     
     # Collects information from authenticated user.
     # Used by post requests to authenticate
