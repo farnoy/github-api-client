@@ -1,6 +1,8 @@
 module GitHub
   class User < Base
-    attr_accessor :login, :token
+    %w(login token gravatar_id created_at public_repo_count public_gist_count following_count id type followers_count).each do |attr|
+      attr_accessor attr
+    end
     
     def get(login)
       if [:self, :me].include? login
@@ -17,7 +19,14 @@ module GitHub
       if [:self, :me].include? login
         login = self.login
       end
-      return GitHub::Browser.get "/user/show/#{login}/followers"
+      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
+      objects = []
+      users.each do |user|
+        u = GitHub::User.new
+        u.build(YAML::load(GitHub::Browser.get("/user/show/#{user}"))['user'])
+        p u
+      end
+      return objects
     end
     
     def auth_info
