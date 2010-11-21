@@ -3,7 +3,7 @@ module GitHub
     include Singleton
     
     def self.base_uri
-      GitHub.base_uri
+      "http://github.com/api/v2/yaml"
     end
     
     def self.get(uri)

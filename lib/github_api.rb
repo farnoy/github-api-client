@@ -18,7 +18,4 @@ rescue Errno::ENOENT
 end
 
 module GitHub
-  def self.base_uri
-    "http://github.com/api/v2/yaml"
-  end
 end
