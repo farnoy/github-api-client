@@ -7,6 +7,15 @@ module GitHub
         self.send "#{k.to_sym}=", v
       end
     end
+     
+    # Converts pitfalls from GitHub API differences into normal data
+    def self.parse_attributes(attributes)
+      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repos_count}.each do |k, v|
+        attributes[v] = attributes[k.to_s]
+        attributes.delete k.to_s
+      end
+      attributes
+    end
     
     def to_ary #:nodoc:
       return self.attributes

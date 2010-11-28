@@ -3,18 +3,11 @@ module GitHub
   class User < ActiveRecord::Base
     has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'following_followers', :class_name => 'User'
     has_and_belongs_to_many :following, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'following_followers', :class_name => 'User'
-     
-    def login_safe;login || name;end
-    def followers_safe;followers_count || followers;end
-    def repos_safe;public_repo_count || repos;end
-    def name_safe;fullname || name;end
-    def created_safe;created_at || created;end
     
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
     def get
-      self.find_or_create_by_login YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
-      self
+      self.update_attributes YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
     end
     
     # Static function, that gets information about GitHub::User by login.
@@ -27,7 +20,7 @@ module GitHub
     def self.search(login)
       users = []
       YAML::load(GitHub::Browser.get("/user/search/#{login}"))['users'].each do |user|
-        p GitHub::User.find_or_create_by_login(user)
+        p GitHub::User.find_or_create_by_login(GitHub::Base.parse_attributes(user))
       end
     end
     
