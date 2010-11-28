@@ -34,8 +34,11 @@ module GitHub
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
       ids = []
+      i = 1
       users.each do |user|
-        u = GitHub::User.get(user)
+        puts "#{users.length.to_s} / #{i.to_s} - Fetching followers"
+        i = i + 1
+        u = GitHub::User.find_or_create_by_login(user)
         ids << u.id
       end
       
@@ -53,7 +56,7 @@ module GitHub
       users.each do |user|
         puts "#{users.length.to_s} / #{i.to_s} - Fetching followers"
         i = i + 1
-        u = GitHub::User.get(user)
+        u = GitHub::User.find_or_create_by_login(user)
         objects << u
       end
       return objects

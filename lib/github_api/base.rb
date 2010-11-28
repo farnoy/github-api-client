@@ -7,6 +7,24 @@ module GitHub
         self.send "#{k.to_sym}=", v
       end
     end
+    
+    # Synchronizes every information from local database with GitHub
+    # == VERY DANGEROUS AND EVIL
+    # Recursively gets all* GitHub Users, takes years to fetch
+    # * - all that have at least one follower
+    def self.sync
+      puts "Synchronizing local database with GitHub"
+      users = GitHub::User.all
+      count = users.count
+      i = 1
+      users.each do |user|
+        puts "#{count.to_s} / #{i.to_s} - Updating records"
+        i = i + 1
+        # Disabled because of its length
+        #user.get
+        #user.get_followers
+      end
+    end
      
     # Converts pitfalls from GitHub API differences into normal data
     def self.parse_attributes(attributes)
