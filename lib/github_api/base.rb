@@ -29,7 +29,7 @@ module GitHub
     # Converts pitfalls from GitHub API differences into normal data
     def self.parse_attributes(attributes)
       #p attributes
-      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repos_count, :created => :nil}.each do |k, v|
+      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil}.each do |k, v|
         unless v == :nil
           attributes[v] = attributes[k.to_s]
         end
