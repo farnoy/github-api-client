@@ -7,7 +7,9 @@ require 'yaml'
 require 'singleton'
 require 'active_record'
 
-ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => 'ruby.db'
+
+Dir.mkdir ENV['HOME'] + "/.github" if !Dir.entries(ENV['HOME']).include? ".github"
+ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => "#{ENV['HOME']}/.github/ruby.db"
 
 require 'base'
 require 'user'
