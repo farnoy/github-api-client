@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-$LOAD_PATH << './github_api'
+$LOAD_PATH << './github_api' << './lib/github_api'
 
 require 'net/http'
 require 'uri'
