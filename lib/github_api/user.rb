@@ -29,7 +29,19 @@ module GitHub
       return GitHub::Browser.post "/#{route.join('/')}", options.merge(self.auth_info)
     end
     
+    # End-user way to fetch information
+    def fetch(*things)
+      things.each do |thing|
+        case thing
+          when :self then get
+          when :followers then get_followers
+        end
+      end
+      self
+    end
+    
     # Executes when you got a real object
+    private 
     def get_followers
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
@@ -47,6 +59,7 @@ module GitHub
     end
     
     # Returns an array with logins of GitHub::User followers
+    public
     def self.get_followers(login)
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
