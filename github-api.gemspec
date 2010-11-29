@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "github-api-client"
-  s.version = '0.1.1.rc4'
+  s.version = '0.1.1'
   s.summary = 'Library for easy GitHub API browsing'
   s.description = s.summary
   s.author = 'Jakub Okoński'
@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.has_rdoc = false
   
-  s.add_dependency('rainbow', '>=0')
+  s.add_dependency('rainbow', '>=1.1')
   s.add_dependency('activerecord', '>=3.0.3')
+  s.add_dependency('sqlite3-ruby', '>=1.3.2')
 end
