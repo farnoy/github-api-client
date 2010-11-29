@@ -2,6 +2,7 @@ module GitHub
   # Basic functionality inherited later
   class Base
     # Sends key= value signals at object, that inherits it
+    # @param [Hash] options to assign for an object
     def build(options = {})
       options.each_pair do |k, v|
         self.send "#{k.to_sym}=", v
@@ -12,6 +13,7 @@ module GitHub
     # == VERY DANGEROUS AND EVIL
     # Recursively gets all* GitHub Users, takes years to fetch
     # * - all that have at least one follower
+    # @return nil
     def self.sync
       puts "Synchronizing local database with GitHub"
       users = GitHub::User.all
@@ -24,11 +26,13 @@ module GitHub
         #user.get
         #user.get_followers
       end
+      nil
     end
      
     # Converts pitfalls from GitHub API differences into normal data
+    # @param [Hash] attributes GitHub API retrieved attributes to be parsed
+    # @return [Hash] parsed attributes, fully compatibile with local db
     def self.parse_attributes(attributes)
-      #p attributes
       {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil}.each do |k, v|
         unless v == :nil
           attributes[v] = attributes[k.to_s]
@@ -38,12 +42,10 @@ module GitHub
       attributes
     end
     
-    def to_ary #:nodoc:
+    # ActiveRecord fix that returns attributes
+    # @return [Hash] Attributes of the object
+    def to_ary
       return self.attributes
-    end
-    
-    def method_missing(method, *args, &block) #:nodoc:
-      puts "Missing #{method}"
     end
   end
   
@@ -56,6 +58,9 @@ module GitHub
     # === Objects
     # * GitHub::User - recognition by key 'user'
     # More to be added soon
+    # @deprecated Nothing uses it, but may come handy later
+    # @param [String] yaml a YAML content to be parsed
+    # @return [GitHub::User, Array]
     def self.build_from_yaml(yaml)
       yaml = YAML::load yaml
       object = case

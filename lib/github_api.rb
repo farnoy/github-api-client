@@ -10,10 +10,15 @@ require 'yaml'
 require 'singleton'
 require 'active_record'
 
-module GitHub #:nodoc:
+# General placeholder for all of the GitHub API sweets
+module GitHub
+  # Keeps all the configuration stuff
   module Config
+    # Constant with defined all the paths used in the application
     Path = {:dir => ENV['HOME'] + "/.github", :dbfile => ENV['HOME'] + "/.github/github.db", :migrations => Gem.loaded_specs['github-api-client'].full_gem_path + "/db/migrate", :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"}
     
+    # Sets up the database and migrates it
+    # @return [nil]
     def self.setup
       Dir.mkdir GitHub::Config::Path[:dir] rescue nil
       ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => GitHub::Config::Path[:dbfile]

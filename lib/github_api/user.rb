@@ -6,6 +6,7 @@ module GitHub
     
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
+    # @return [GitHub::User] Chainable self object after syncing attributes with GitHub
     def get
       self.update_attributes YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
       self
@@ -14,10 +15,15 @@ module GitHub
     # Static function, that gets information about GitHub::User by login.
     # === Examples
     #  GitHub::User.get('defunkt') #=> GitHub::User
+    # @param [String] login GitHub user login to fetch
+    # @return [GitHub::User] Newly created, in local database user synced with github
     def self.get(login)
       return GitHub::User.find_or_create_by_login YAML::load(GitHub::Browser.get("/user/show/#{login}"))['user']
     end
     
+    # Searches for users in GitHub database
+    # @param [String] login GitHub user login to search
+    # @return [Array<GitHub::User>] All users that matched login
     def self.search(login)
       users = []
       YAML::load(GitHub::Browser.get("/user/search/#{login}"))['users'].each do |user|
@@ -26,11 +32,21 @@ module GitHub
       users
     end
     
-    def set(route = [], options = {}) #:nodoc:
+    # Experimental function, requests POST transmission to custom path of GitHub API
+    # @param [Array] route Route splitted like: ['users', 'search', 'chacon']
+    # @param [Hash] options Options to pass with the request
+    # @option [Hash] options 'values[email]' => 'test@api.com'
+    def set(route = [], options = {})
       return GitHub::Browser.post "/#{route.join('/')}", options.merge(self.auth_info)
     end
     
     # End-user way to fetch information
+    # @param [Array<Symbol>] things Things to fetch for GitHub::User
+    # @option things [Symbol] :self Sync with GitHub Database
+    # @option things [Symbol] :followers Map followers from GitHub Database
+    # @return [GitHub::User] Chainable, updated User
+    # @see GitHub::User#get
+    # @see GitHub::User#get_followers
     def fetch(*things)
       things.each do |thing|
         case thing
@@ -42,6 +58,8 @@ module GitHub
     end
     
     # Executes when you got a real object
+    # @see GitHub::User#fetch
+    # @return GitHub::User Chainable after mapping followers association
     private 
     def get_followers
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
@@ -59,8 +77,10 @@ module GitHub
       self
     end
     
-    # Returns an array with logins of GitHub::User followers
     public
+    # Returns an array with logins of GitHub::User followers
+    # @param [String] login GitHub login of which followers will be mapped
+    # @return [Array<GitHub::User>] Followers
     def self.get_followers(login)
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
@@ -78,11 +98,16 @@ module GitHub
     
     # Collects information from authenticated user.
     # Used by post requests to authenticate
+    # @return [Hash] Collected from GitHub::User options for HTTP POST request authentication
     def auth_info
       {:login => self.login, :token => self.token}
     end
     
-    # Experimental, sets information about GitHub::User or returns authenticated :self 
+    # Experimental, sets information about GitHub::User or returns authenticated :self
+    # @param [String] login Login to which post request will be sent
+    # @param [Hash] options Options to include to a post request
+    # @option options [Hash] email 'values[email]' => 'test@api.com' - Sets user email to test@api.com if authenticated
+    # @return [String] Request retrieved data
     def post(login, options = {})
       if [:self, :me].include? login
         login = self.login
