@@ -2,7 +2,6 @@
 $: << './github_api' << './lib/github_api'
 
 require 'rubygems'
-require 'bundler/setup'
 gem 'github-api-client'
 require 'net/http'
 require 'uri'
@@ -32,7 +31,7 @@ GitHub::Config.setup
 require 'base'
 require 'user'
 require 'browser'
-gem 'rainbow'
+require 'rainbow'
 
 
 begin
