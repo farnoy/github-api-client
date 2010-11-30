@@ -2,13 +2,14 @@ module GitHub
   # Basic model, stores retrieved user and his associations
   class User < ActiveRecord::Base
     has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'followings', :class_name => 'User'
-    has_and_belongs_to_many :following, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'followings', :class_name => 'User'
+    has_and_belongs_to_many :followings, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'followings', :class_name => 'User'
     
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
     # @return [GitHub::User] Chainable self object after syncing attributes with GitHub
     def get
-      self.update_attributes YAML::load(GitHub::Browser.get("/user/show/#{self.login}"))['user']
+      self.update_attributes YAML::load(
+          GitHub::Browser.get("/user/show/#{self.login}"))['user']
       self
     end
     
@@ -63,17 +64,15 @@ module GitHub
     private 
     def get_followers
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
-      
-      ids = []
       i = 1
       users.each do |user|
         puts "#{users.length.to_s} / #{i.to_s} - Fetching followers"
         i = i + 1
         u = GitHub::User.find_or_create_by_login(user)
-        ids << u.id
+        self.followers.find_or_create u
+        # Realized it was stupid as it's a bi-directional relation :D
+        #u.followings.find_or_create self
       end
-      
-      self.follower_ids = ids
       self
     end
     

@@ -33,11 +33,11 @@ module GitHub
     # @param [Hash] attributes GitHub API retrieved attributes to be parsed
     # @return [Hash] parsed attributes, fully compatibile with local db
     def self.parse_attributes(attributes)
-      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil}.each do |k, v|
+      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil, :permission => :nil}.each do |k, v|
         unless v == :nil
-          attributes[v] = attributes[k.to_s]
+          attributes[v.to_sym] = attributes[k.to_sym]
         end
-        attributes.delete k.to_s
+        attributes.delete k.to_sym
       end
       attributes
     end

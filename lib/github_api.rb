@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-$: << './github_api' << './lib/github_api'
+#$: << '../'
 
 require 'rubygems'
 gem 'github-api-client'
@@ -8,6 +8,7 @@ require 'uri'
 require 'yaml'
 require 'singleton'
 require 'active_record'
+require 'core_ext/habtm'
 
 # General placeholder for all of the GitHub API sweets
 module GitHub
@@ -28,9 +29,9 @@ end
 
 GitHub::Config.setup
 
-require 'base'
-require 'user'
-require 'browser'
+require 'github_api/base'
+require 'github_api/user'
+require 'github_api/browser'
 require 'rainbow'
 
 
