@@ -68,7 +68,7 @@ module GitHub
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       i = 1
       users.each do |user|
-        puts "#{users.length.to_s} / #{i.to_s} - Fetching followers"
+        puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followers"
         i = i + 1
         u = GitHub::User.find_or_create_by_login(user)
         self.followers.find_or_create u
@@ -82,7 +82,7 @@ module GitHub
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users']
       i = 1
       users.each do |user|
-        puts "#{users.length.to_s} / #{i.to_s} - Fetching followings"
+        puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followings"
         i = i + 1
         u = GitHub::User.find_or_create_by_login(user)
         self.followings.find_or_create u
@@ -94,6 +94,7 @@ module GitHub
     # Returns an array with logins of GitHub::User followers
     # @param [String] login GitHub login of which followers will be mapped
     # @return [Array<GitHub::User>] Followers
+    # @deprecated It should not support such way, there should be objects!
     def self.get_followers(login)
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       
