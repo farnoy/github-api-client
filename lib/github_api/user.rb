@@ -45,6 +45,7 @@ module GitHub
     # @param [Array<Symbol>] things Things to fetch for GitHub::User
     # @option things [Symbol] :self Sync with GitHub Database
     # @option things [Symbol] :followers Map followers from GitHub Database
+    # @option things [Symbol] :followings Map user's followings from GitHub
     # @return [GitHub::User] Chainable, updated User
     # @see GitHub::User#get
     # @see GitHub::User#get_followers
@@ -53,6 +54,7 @@ module GitHub
         case thing
           when :self then get
           when :followers then get_followers
+          when :followings then get_followings
         end
       end
       self
@@ -72,6 +74,18 @@ module GitHub
         self.followers.find_or_create u
         # Realized it was stupid as it's a bi-directional relation :D
         #u.followings.find_or_create self
+      end
+      self
+    end
+    
+    def get_followings
+      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users']
+      i = 1
+      users.each do |user|
+        puts "#{users.length.to_s} / #{i.to_s} - Fetching followings"
+        i = i + 1
+        u = GitHub::User.find_or_create_by_login(user)
+        self.followings.find_or_create u
       end
       self
     end
