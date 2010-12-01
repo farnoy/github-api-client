@@ -3,6 +3,7 @@ module GitHub
   class User < ActiveRecord::Base
     has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'followings', :class_name => 'User'
     has_and_belongs_to_many :followings, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'followings', :class_name => 'User'
+    has_many :repos, :class_name => 'GitHub::Repo', :foreign_key => 'owner_id'
     
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
