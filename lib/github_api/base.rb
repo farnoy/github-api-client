@@ -30,14 +30,28 @@ module GitHub
     end
      
     # Converts pitfalls from GitHub API differences into normal data
+    # @param [Symbol] resource GitHub Resource to parse
+    # @option [Symbol] resource :user Parse attributes of User
+    # @option [Symbol] resource :repo Parse attributes of Repo
     # @param [Hash] attributes GitHub API retrieved attributes to be parsed
     # @return [Hash] parsed attributes, fully compatibile with local db
-    def self.parse_attributes(attributes)
-      {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil, :permission => :nil}.each do |k, v|
+    def self.parse_attributes(resource, attributes)
+      hash = case resource
+        when :user then {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil, :permission => :nil}
+        when :repo then {}
+      end
+      hash.each do |k, v|
         unless v == :nil
-          attributes[v.to_sym] = attributes[k.to_sym]
+          unless v == :auto
+            attributes[v.to_sym] = attributes[k.to_sym]
+          else
+            attributes[k.to_sym] = 'lolzor'
+          end
         end
-        attributes.delete k.to_sym
+        unless v == :auto
+          puts "Deleting #{v.to_s}"
+          attributes.delete k.to_sym
+        end
       end
       attributes
     end
