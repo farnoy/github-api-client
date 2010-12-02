@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration
         t.string attr
       end
       
-      %w(gravatar_id public_repo_count public_gist_count following_count followers_count score record).each do |attr|
+      %w(gravatar_id score record).each do |attr|
         t.integer attr
       end
       

@@ -9,8 +9,10 @@ module GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
     # @return [GitHub::User] Chainable self object after syncing attributes with GitHub
     def get
-      self.update_attributes YAML::load(
-          GitHub::Browser.get("/user/show/#{self.login}"))['user']
+      self.update_attributes(
+        GitHub::Base.parse_attributes(:user_get,
+          YAML::load(
+            GitHub::Browser.get("/user/show/#{self.login}"))['user']))
       self
     end
     
@@ -20,7 +22,11 @@ module GitHub
     # @param [String] login GitHub user login to fetch
     # @return [GitHub::User] Newly created, in local database user synced with github
     def self.get(login)
-      return GitHub::User.find_or_create_by_login YAML::load(GitHub::Browser.get("/user/show/#{login}"))['user']
+      if u = GitHub::User.find_by_login(login)
+        u.get
+      else
+        u = GitHub::User.new(:login => login).fetch(:self)
+      end
     end
     
     # Searches for users in GitHub database
