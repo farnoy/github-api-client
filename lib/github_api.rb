@@ -15,7 +15,7 @@ module GitHub
   # Keeps all the configuration stuff
   module Config
     # Constant with defined all the paths used in the application
-    Path = {:dir => ENV['HOME'] + "/.github", :dbfile => ENV['HOME'] + "/.github/github.db", :migrations => "db/migrate", :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"} # Gem.loaded_specs['github-api-client'].full_gem_path + 
+    Path = {:dir => ENV['HOME'] + "/.github", :dbfile => ENV['HOME'] + "/.github/github.db", :migrations => Gem.loaded_specs['github-api-client'].full_gem_path +  "/db/migrate", :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"}
     
     # Sets up the database and migrates it
     # @return [nil]
