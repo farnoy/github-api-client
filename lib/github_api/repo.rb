@@ -4,7 +4,8 @@ module GitHub
     belongs_to :parent, :class_name => 'GitHub::Repo'
     
     def self.get(information)
-      GitHub::Repo.find_or_create_by_id(GitHub::Base.parse_attributes(:repo, YAML::load(GitHub::Browser.get("/repos/show/#{information}"))['repository']))
+      #FIXME: permalink column must be present, comparing url's is surely not the most efficient way for the db
+      GitHub::Repo.find_or_create_by_url(YAML::load(GitHub::Browser.get("/repos/show/#{information}"))['repository'])
     end
     
     
