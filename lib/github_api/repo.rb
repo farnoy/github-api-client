@@ -5,7 +5,9 @@ module GitHub
     
     def self.get(information)
       #FIXME: permalink column must be present, comparing url's is surely not the most efficient way for the db
-      GitHub::Repo.find_or_create_by_url(YAML::load(GitHub::Browser.get("/repos/show/#{information}"))['repository'])
+      GitHub::Repo.find_or_create_by_url(
+        GitHub::Base.parse_attributes(:repo_get,
+          YAML::load(GitHub::Browser.get("/repos/show/#{information}"))['repository']))
     end
     
     
@@ -26,6 +28,10 @@ module GitHub
     
     def permalink
       "#{owner.login}/#{name}"
+    end
+    
+    define_method(:fork?) do
+      b_fork
     end
   end
 end
