@@ -37,16 +37,25 @@ module GitHub
     # @return [Hash] parsed attributes, fully compatibile with local db
     def self.parse_attributes(resource, attributes)
       hash = case resource
-    when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
+        when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
         when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :public_repo_count, :created => :nil, :permission => :nil}
-        when :repo then {}
+        when :repo_get then {:fork => :b_fork}
       end
       hash.each do |k, v|
         unless v == :nil
-          attributes[v.to_s] = attributes[k.to_s]
+          if [:repo_get].include? resource
+            attributes[v.to_s] = attributes[k.to_sym]
+          else
+            attributes[v.to_s] = attributes[k.to_s]
+          end
         end
-        attributes.delete k.to_s
+        if [:repo_get].include? resource
+          attributes.delete k.to_sym
+        else
+          attributes.delete k.to_s
+        end
       end
+      p attributes
       attributes
     end
     
