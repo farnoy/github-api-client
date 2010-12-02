@@ -20,7 +20,7 @@ module GitHub
       count = users.count
       i = 1
       users.each do |user|
-        puts "#{count.to_s} / #{i.to_s} - Updating records"
+        puts "#{count.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Updating records"
         i = i + 1
         # Disabled because of its length
         #user.get
@@ -37,22 +37,16 @@ module GitHub
     # @return [Hash] parsed attributes, fully compatibile with local db
     def self.parse_attributes(resource, attributes)
       hash = case resource
-        when :user then {:name => :login, :username => :login, :fullname => :name, :followers => :followers_count, :repos => :public_repo_count, :created => :nil, :permission => :nil}
+        when :user then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :public_repo_count, :created => :nil, :permission => :nil}
         when :repo then {}
       end
       hash.each do |k, v|
         unless v == :nil
-          unless v == :auto
-            attributes[v.to_sym] = attributes[k.to_sym]
-          else
-            attributes[k.to_sym] = 'lolzor'
-          end
+          attributes[v.to_s] = attributes[k.to_s]
         end
-        unless v == :auto
-          puts "Deleting #{v.to_s}"
-          attributes.delete k.to_sym
-        end
+        attributes.delete k.to_s
       end
+      p attributes
       attributes
     end
     
