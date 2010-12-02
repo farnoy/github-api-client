@@ -55,7 +55,6 @@ module GitHub
           attributes.delete k.to_s
         end
       end
-      p attributes
       attributes
     end
     
