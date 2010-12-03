@@ -74,11 +74,13 @@ module GitHub
     def get_followers
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       i = 1
-      users.each do |user|
-        puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followers"
-        i = i + 1
-        u = GitHub::User.find_or_create_by_login(user)
-        self.followers.find_or_create u
+      self.transaction do
+        users.each do |user|
+          puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followers"
+          i = i + 1
+          u = GitHub::User.find_or_create_by_login(user)
+          self.followers.find_or_create u
+        end
       end
       self
     end
@@ -86,11 +88,13 @@ module GitHub
     def get_followings
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users']
       i = 1
-      users.each do |user|
-        puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followings"
-        i = i + 1
-        u = GitHub::User.find_or_create_by_login(user)
-        self.followings.find_or_create u
+      self.transaction do
+        users.each do |user|
+          puts "#{users.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching followings"
+          i = i + 1
+          u = GitHub::User.find_or_create_by_login(user)
+          self.followings.find_or_create u
+        end
       end
       self
     end
