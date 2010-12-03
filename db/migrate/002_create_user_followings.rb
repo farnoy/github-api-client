@@ -3,7 +3,6 @@ class CreateUserFollowings < ActiveRecord::Migration
     create_table :user_followings, :id => false, :force => true do |t|
       t.references :follower
       t.references :following
-      t.integer :resource
     end
   end
   
