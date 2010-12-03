@@ -10,6 +10,10 @@ else # launches all-features code
   # Gets repo
   r = GitHub::Repo.get('mojombo/jekyll')
   puts r.fork? 
+  
+  GitHub::Repo.get('schacon/kidgloves').get_watchers.watchers.each do |watcher|
+    puts watcher.login
+  end
 
   GitHub::User.search('chacon').each do |user|
     puts user.name
