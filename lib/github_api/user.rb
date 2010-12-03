@@ -35,7 +35,7 @@ module GitHub
     def self.search(login)
       users = []
       YAML::load(GitHub::Browser.get("/user/search/#{login}"))['users'].each do |user|
-        users << GitHub::User.find_or_create_by_login(GitHub::Base.parse_attributes(:user, user))
+        users << GitHub::User.find_or_create_by_login(GitHub::Base.parse_attributes(:user_search, user))
       end
       users
     end
