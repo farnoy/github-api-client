@@ -4,21 +4,49 @@ module GitHub
     belongs_to :parent, :class_name => 'GitHub::Repo'
     has_and_belongs_to_many :watchers, :class_name => 'GitHub::User', :join_table => 'repo_watchings', :foreign_key => 'repo_id', :association_foreign_key => 'watcher_id'
     
-    def self.get(information)
-      #FIXME: permalink column must be present, comparing url's is surely not the most efficient way for the db
-      GitHub::Repo.find_or_create_by_url(
-        GitHub::Base.parse_attributes(:repo_get,
-          YAML::load(GitHub::Browser.get("/repos/show/#{information}"))['repository']))
+    def get
+      self.update_attributes GitHub::Base.parse_attributes(:repo_get, 
+        YAML::load(
+          GitHub::Browser.get("/repos/show/#{self.permalink}"))['repository'])
+      self
     end
     
-    def get_watchers
-      YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers'].each do |watcher|
-        attr = {:login => watcher}
-        self.watchers.find_or_create(GitHub::User.find_or_create_by_login(attr))
+    def self.get(information)
+      #FIXME: permalink column must be present, comparing url's is surely not the most efficient way for the db
+      conditions = {:name => information.split('/').last, :owner_id => GitHub::User.find_or_create_by_login(information.split('/').first).id}
+      if r = GitHub::Repo.where(conditions).first
+        r.get
+      else
+        r = GitHub::Repo.new(conditions).get
+      end
+    end
+    
+    def fetch(*things)
+      things.each do |thing|
+        case thing
+          when :self then get
+          when :watchers then get_watchers
+        end
       end
       self
     end
     
+    private
+    def get_watchers
+      watchers = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers']
+      i = 1
+      self.transaction do
+        watchers.each do |watcher|
+          puts "#{watchers.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching watchers"
+          i = i + 1
+          attr = {:login => watcher}
+          self.watchers.find_or_create(GitHub::User.find_or_create_by_login(attr))
+        end
+      end
+      self
+    end
+    
+    public
     def owner=(user)
       self.owner_id = GitHub::User.find_or_create_by_login(user).id if user.class == String
       if user.class == GitHub::User
@@ -36,6 +64,11 @@ module GitHub
     
     def permalink
       "#{owner.login}/#{name}"
+    end
+    
+    # For future, when sql will be find_or_create_by_permalink
+    def permalink=(anything)
+      @permalink = permalink
     end
     
     def fork?
