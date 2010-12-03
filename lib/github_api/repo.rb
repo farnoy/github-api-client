@@ -30,7 +30,7 @@ module GitHub
       "#{owner.login}/#{name}"
     end
     
-    define_method(:fork?) do
+    def fork?
       b_fork
     end
   end
