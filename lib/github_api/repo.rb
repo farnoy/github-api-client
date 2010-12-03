@@ -17,7 +17,7 @@ module GitHub
       if r = GitHub::Repo.where(conditions).first
         r.get
       else
-        r = GitHub::User.new(conditions).fetch(:self)
+        r = GitHub::Repo.new(conditions).get
       end
     end
     
@@ -33,7 +33,11 @@ module GitHub
     
     private
     def get_watchers
-      YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers'].each do |watcher|
+      watchers = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers']
+      i = 1
+      watchers.each do |watcher|
+        puts "#{watchers.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching watchers"
+        i = i + 1
         attr = {:login => watcher}
         self.watchers.find_or_create(GitHub::User.find_or_create_by_login(attr))
       end
@@ -58,6 +62,11 @@ module GitHub
     
     def permalink
       "#{owner.login}/#{name}"
+    end
+    
+    # For future, when sql will be find_or_create_by_permalink
+    def permalink=(anything)
+      @permalink = permalink
     end
     
     def fork?
