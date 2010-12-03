@@ -5,15 +5,17 @@ require 'github_api'
 
 unless ARGV.include? 'test'
   # Dev temporary code here
-  p GitHub::Repo.get('parndt/hub')
+  p GitHub::Repo.get('parndt/hub').parent.fetch(:self, :watchers).watchers
 else # launches all-features code
   # Gets repo
   r = GitHub::Repo.get('mojombo/jekyll')
   puts r.fork? 
   
-  GitHub::Repo.get('schacon/kidgloves').get_watchers.watchers.each do |watcher|
+  GitHub::Repo.get('schacon/kidgloves').fetch(:watchers).watchers.each do |watcher|
     puts watcher.login
   end
+  
+  p GitHub::Repo.get('parndt/hub').parent.fetch(:self, :watchers).watchers
 
   GitHub::User.search('chacon').each do |user|
     puts user.name
