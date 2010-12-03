@@ -38,8 +38,8 @@ module GitHub
     def self.parse_attributes(resource, attributes)
       hash = case resource
         when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
-        when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :public_repo_count, :created => :nil, :permission => :nil}
-        when :repo_get then {:fork => :b_fork}
+        when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :nil, :created => :nil, :permission => :nil}
+        when :repo_get then {:fork => :b_fork, :watchers => :nil}
       end
       hash.each do |k, v|
         unless v == :nil

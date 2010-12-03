@@ -1,8 +1,8 @@
 module GitHub
   # Basic model, stores retrieved user and his associations
   class User < ActiveRecord::Base
-    has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'followings', :class_name => 'User'
-    has_and_belongs_to_many :followings, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'followings', :class_name => 'User'
+    has_and_belongs_to_many :followers, :foreign_key => 'follower_id', :association_foreign_key => 'following_id', :join_table => 'user_followings', :class_name => 'User'
+    has_and_belongs_to_many :followings, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'user_followings', :class_name => 'User'
     has_many :repos, :class_name => 'GitHub::Repo', :foreign_key => 'owner_id'
     
     # Fetches info about current_user from GitHub
@@ -35,7 +35,7 @@ module GitHub
     def self.search(login)
       users = []
       YAML::load(GitHub::Browser.get("/user/search/#{login}"))['users'].each do |user|
-        users << GitHub::User.find_or_create_by_login(GitHub::Base.parse_attributes(:user, user))
+        users << GitHub::User.find_or_create_by_login(GitHub::Base.parse_attributes(:user_search, user))
       end
       users
     end
@@ -79,8 +79,6 @@ module GitHub
         i = i + 1
         u = GitHub::User.find_or_create_by_login(user)
         self.followers.find_or_create u
-        # Realized it was stupid as it's a bi-directional relation :D
-        #u.followings.find_or_create self
       end
       self
     end
