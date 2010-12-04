@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "github-api-client"
-  s.version = '0.1.3.0'
+  s.version = '0.1.3.2'
   s.summary = 'Library for easy GitHub API browsing'
   s.description = s.summary
   s.author = 'Jakub Okoński'
