@@ -14,7 +14,7 @@ module GitHub
     # @return [String] request result
     def self.get(uri)
       uri = uri.gsub(" ","+")
-      puts "Requesting #{URI.parse(self.base_uri + uri)}"
+      puts "Requesting #{URI.parse(self.base_uri + uri)}" if GitHub::Config::Options[:verbose]
       Net::HTTP.get URI.parse(self.base_uri + uri)
     end
     
@@ -23,7 +23,7 @@ module GitHub
     # @return [String] request result
     def self.post(uri, options = {})
       uri = uri.gsub(" ","+")
-      puts "Requesting #{URI.parse(self.base_uri + uri)} with options: #{options}"
+      puts "Requesting #{URI.parse(self.base_uri + uri)} with options: #{options}" if GitHub::Config::Options[:verbose]
       Net::HTTP.post_form URI.parse(self.base_uri + uri), options
     end
   end
