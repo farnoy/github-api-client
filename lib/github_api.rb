@@ -10,6 +10,7 @@ require 'singleton'
 require 'active_record'
 require 'core_ext/habtm'
 require 'rainbow'
+require 'progressbar'
 require 'github_api/config'
 
 GitHub::Config.setup

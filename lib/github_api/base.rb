@@ -17,15 +17,21 @@ module GitHub
     def self.sync
       puts "Synchronizing local database with GitHub"
       users = GitHub::User.all
-      count = users.count
-      i = 1
+      repos = GitHub::Repo.all
+      puts "Updating Records of all #{"users".color(:yellow).bright}"
+      progress = ProgressBar.new("Updating records", users.count)
       users.each do |user|
-        puts "#{count.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Updating records"
-        i = i + 1
         # Disabled because of its length
-        #user.get
-        #user.get_followers
+        user.fetch(:self)
+        progress.inc
       end
+      progress.finish
+      progress = ProgressBar.new("Updating records", repos.count)
+      repos.each do |repo|
+        repo.fetch(:self, :watchers)
+        progress.inc
+      end
+      progress.finish
       nil
     end
      
