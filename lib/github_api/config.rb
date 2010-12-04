@@ -23,6 +23,8 @@ You have two ways of defining your user to have authenticated access to your API
     end
     Secrets ||= nil
     
+    Options = {:verbose => false}
+    
     # Sets up the database and migrates it
     # @return [nil]
     def self.setup

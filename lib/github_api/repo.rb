@@ -34,15 +34,16 @@ module GitHub
     private
     def get_watchers
       watchers = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers']
-      i = 1
+      puts "Fetching watchers for #{"repo".color(:blue).bright} #{self.permalink.color(:green).bright}"
+      progress = ProgressBar.new("progress", watchers.count)
       self.transaction do
         watchers.each do |watcher|
-          puts "#{watchers.length.to_s.color(:green).bright} / #{i.to_s.color(:blue).bright} - Fetching watchers"
-          i = i + 1
           attr = {:login => watcher}
           self.watchers.find_or_create(GitHub::User.find_or_create_by_login(attr))
+          progress.inc
         end
       end
+      progress.finish
       self
     end
     
