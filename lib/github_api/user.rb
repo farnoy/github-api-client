@@ -74,30 +74,32 @@ module GitHub
     def get_followers
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
       puts "Fetching followers for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
-      progress = ProgressBar.new("progress", users.count)
+      i, count = 0, users.count.to_s.color(:green).bright
       self.transaction do
         users.each do |user|
+          i += 1
           u = GitHub::User.find_or_create_by_login(user)
           self.followers.find_or_create u
-          progress.inc
+          print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
-      progress.finish
+      puts nil
       self
     end
     
     def get_followings
       users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users']
       puts "Fetching followings for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
-      progress = ProgressBar.new("progress", users.count)
+      i, count = 0, users.count.to_s.color(:green).bright
       self.transaction do
         users.each do |user|
+          i += 1
           u = GitHub::User.find_or_create_by_login(user)
           self.followings.find_or_create u
-          progress.inc
+          print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
-      progress.finish
+      puts nil
       self
     end
     
