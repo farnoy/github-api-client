@@ -1,9 +1,8 @@
-Feature: something something
-  In order to something something
-  A user something something
-  something something something
+Feature: Fetching Objects
+  In order to fetch objects from GitHub
+  I just need to fire up few commands
 
-  Scenario: something something
-    Given inspiration
-    When I create a sweet new gem
-    Then everyone should see how awesome I am
+  Scenario: Fetching user information
+    When I fetch user 'schacon'
+    Then My local database should contain that record
+    And That record's 'name' should be 'Scott Chacon'
