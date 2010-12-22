@@ -37,7 +37,7 @@ You have two ways of defining your user to have authenticated access to your API
     def self.setup
       Dir.mkdir GitHub::Config::Path[:dir] rescue nil
       ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => GitHub::Config::Path[:dbfile]
-      ActiveRecord::Migrator.migrate(GitHub::Config::Path[:migrations], nil)
+      ActiveRecord::Migrator.migrate(GitHub::Config::Path[:migrations], nil) if not File.exists? GitHub::Config::Path[:dbfile]
     end
   end
 end
