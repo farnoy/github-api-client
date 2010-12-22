@@ -4,6 +4,13 @@ module GitHub
     # Constant with defined all the paths used in the application
     Path = {:dir => ENV['HOME'] + "/.github", :dbfile => ENV['HOME'] + "/.github/github.db", :migrations => Gem.loaded_specs['github-api-client'].full_gem_path +  "/db/migrate", :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"} 
     
+    if Dir.pwd != Gem.loaded_specs['github-api-client'].full_gem_path
+      Version = File.read(Gem.loaded_specs['github-api-client'].full_gem_path + "/VERSION")
+    else
+      Version = File.read(Dir.pwd + "/VERSION")
+    end
+    VERSION = Version
+    
     # Secrets array, uses env vars if defined
     Secrets = {"login" => ENV['GITHUB_USER'], "token" => ENV['GITHUB_TOKEN']} if ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']
     begin
@@ -30,7 +37,7 @@ You have two ways of defining your user to have authenticated access to your API
     def self.setup
       Dir.mkdir GitHub::Config::Path[:dir] rescue nil
       ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => GitHub::Config::Path[:dbfile]
-      ActiveRecord::Migrator.migrate(GitHub::Config::Path[:migrations], nil)
+      ActiveRecord::Migrator.migrate(GitHub::Config::Path[:migrations], nil) if not File.exists? GitHub::Config::Path[:dbfile]
     end
   end
 end
