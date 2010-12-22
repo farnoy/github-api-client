@@ -8,6 +8,7 @@ gem "sqlite3-ruby"
 group :development do
   gem "github-api-client", :path => "./"
   gem "rspec", ">= 2.3.0"
+  gem "mocha"
   gem "yard", ">= 0.6.0"
   gem "cucumber"
   gem "bundler", ">= 1.0.0"

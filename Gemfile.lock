@@ -42,6 +42,8 @@ GEM
       git (>= 1.2.5)
       rake
     json (1.4.6)
+    mocha (0.9.10)
+      rake
     rainbow (1.1)
     rake (0.8.7)
     rcov (0.9.9)
@@ -68,6 +70,7 @@ DEPENDENCIES
   cucumber
   github-api-client!
   jeweler (>= 1.5.2)
+  mocha
   rainbow
   rcov
   rspec (>= 2.3.0)
