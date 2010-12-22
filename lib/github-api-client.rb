@@ -1,9 +1,10 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
+require 'bundler/setup'
 gem 'github-api-client'
 
-$:.unshift File.dirname(__FILE__) if Dir.pwd != Gem.loaded_specs['github-api-client'].full_gem_path # devel trick
+$:.unshift Gem.loaded_specs['github-api-client'].full_gem_path # devel trick
 
 require 'net/http'
 require 'uri'
@@ -12,7 +13,6 @@ require 'singleton'
 require 'active_record'
 require 'core_ext/habtm'
 require 'rainbow'
-require 'progressbar'
 require 'github-api-client/config'
 
 GitHub::Config.setup
