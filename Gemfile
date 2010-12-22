@@ -6,6 +6,7 @@ gem "activesupport", ">= 3.0.3"
 gem "sqlite3-ruby"
 
 group :development do
+  gem "github-api-client", :path => "./"
   gem "rspec", ">= 2.3.0"
   gem "yard", ">= 0.6.0"
   gem "cucumber"
