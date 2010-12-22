@@ -1,7 +1,7 @@
 PATH
   remote: ./
   specs:
-    github-api-client (0.2.1)
+    github-api-client (0.2.1.2)
       activerecord (>= 3.0.3)
       activerecord (>= 3.0.3)
       activesupport (>= 3.0.3)
