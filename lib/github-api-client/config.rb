@@ -4,6 +4,13 @@ module GitHub
     # Constant with defined all the paths used in the application
     Path = {:dir => ENV['HOME'] + "/.github", :dbfile => ENV['HOME'] + "/.github/github.db", :migrations => Gem.loaded_specs['github-api-client'].full_gem_path +  "/db/migrate", :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"} 
     
+    if Dir.pwd != Gem.loaded_specs['github-api-client'].full_gem_path
+      Version = File.read(Gem.loaded_specs['github-api-client'].full_gem_path + "/VERSION")
+    else
+      Version = File.read(Dir.pwd + "/VERSION")
+    end
+    VERSION = Version
+    
     # Secrets array, uses env vars if defined
     Secrets = {"login" => ENV['GITHUB_USER'], "token" => ENV['GITHUB_TOKEN']} if ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']
     begin

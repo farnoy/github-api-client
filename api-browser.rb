@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
-$LOAD_PATH << './lib/' << './lib/github_api/'
+$:.unshift('./lib/')
 
-require 'github_api'
+require 'github-api-client'
 
 GitHub::Config::Options[:verbose] = true if ARGV.include? '--verbose'
 
