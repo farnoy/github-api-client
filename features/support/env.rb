@@ -11,3 +11,21 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../lib')
 require 'github-api-client'
 
 require 'rspec/expectations'
+require 'stringio'
+require "mocha"
+
+# Mocha integration into Cucumber
+# source: https://gist.github.com/80554
+World(Mocha::API)
+
+Before do
+  mocha_setup
+end
+
+After do
+  begin
+    mocha_verify
+  ensure
+    mocha_teardown
+  end
+end

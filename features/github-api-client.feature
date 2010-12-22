@@ -3,6 +3,7 @@ Feature: Fetching Objects
   I just need to fire up few commands
 
   Scenario: Fetching user information
-    When I fetch user 'schacon'
+    Given I fetch user 'schacon'
+    And I set verbose option to 'true'
     Then My local database should contain that record
     And That record's 'name' should be 'Scott Chacon'
