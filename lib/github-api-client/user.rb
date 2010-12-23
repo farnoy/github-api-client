@@ -65,6 +65,7 @@ module GitHub
           when :self then get
           when :followers then get_followers
           when :followings then get_followings
+          when :organizations then get_organizations
         end
       end
       self
@@ -99,6 +100,22 @@ module GitHub
           i += 1
           u = GitHub::User.find_or_create_by_login(user)
           self.followings.find_or_create u
+          print "\r#{i.to_s.color(:yellow).bright}/#{count}"
+        end
+      end
+      puts nil
+      self
+    end
+    
+    def get_organizations
+      organizations = YAML::load(GitHub::Browser.get "/user/show/#{login}/organizations")['organizations']
+      puts "Fetching organizations for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
+      i, count = 0, organizations.count.to_s.color(:green).bright
+      self.transaction do
+        organizations.each do |org|
+          i += 1
+          u = GitHub::Organization.find_or_create_by_login(org['login'])
+          self.organizations.find_or_create u
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
