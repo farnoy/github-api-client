@@ -14,7 +14,7 @@ class CreateRepos < ActiveRecord::Migration
         t.integer attr
       end
       
-      %w(has_downloads b_fork deleted locked has_wiki private open_issues has_issues).each do |attr|
+      %w(has_downloads b_fork b_org deleted locked has_wiki private open_issues has_issues).each do |attr|
         t.boolean attr
       end
       

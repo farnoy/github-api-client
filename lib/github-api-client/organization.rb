@@ -1,6 +1,7 @@
 module GitHub
   class Organization < ActiveRecord::Base
     has_and_belongs_to_many :members, :class_name => 'GitHub::User', :join_table => 'organizations_members'
+    has_and_belongs_to_many :repositories, :class_name => 'GitHub::Repo'
     
     def get
       self.update_attributes(
@@ -20,6 +21,7 @@ module GitHub
         case thing
           when :self then get
           when :members then get_members
+          when :repositories then get_repositories
         end
       end
       self
@@ -41,5 +43,28 @@ module GitHub
       puts nil
       self
     end
+      
+    def get_repositories
+      repos = YAML::load(GitHub::Browser.get "/organizations/#{login}/public_repositories")['repositories']
+      puts "Fetching repositories for #{"organization".color(:magenta).bright} #{self.login.color(:green).bright}"
+      i, count = 0, repos.count.to_s.color(:green).bright
+      self.transaction do
+        repos.each do |repo|
+          i += 1
+          #r   = GitHub::Repo.find_by_url(repo[:url])
+          #r ||= GitHub::Repo.create(GitHub::Base.parse_attributes :org_repo_index, repo)
+          self.repositories.find_or_create GitHub::Repo.find_or_create_by_url(repo[:url])
+          print "\r#{i.to_s.color(:yellow).bright}/#{count}"
+        end
+      end
+      puts nil
+      self
+    end
+    
+    public
+    def repos
+      repositories
+    end
+    
   end
 end
