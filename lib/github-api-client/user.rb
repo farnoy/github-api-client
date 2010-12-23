@@ -5,6 +5,9 @@ module GitHub
     has_and_belongs_to_many :followings, :foreign_key => 'following_id', :association_foreign_key => 'follower_id', :join_table => 'user_followings', :class_name => 'User'
     has_many :repos, :class_name => 'GitHub::Repo', :foreign_key => 'owner_id'
     
+    # FIXME: Does GitHub allow a user to have multiple organizations?
+    has_and_belongs_to_many :organizations, :join_table => 'organizations_members'
+    
     # Fetches info about current_user from GitHub
     # GitHub::User.new.build(:login => 'asd', :token => 'token').get #=> GitHub::User
     # @return [GitHub::User] Chainable self object after syncing attributes with GitHub
