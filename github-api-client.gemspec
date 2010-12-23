@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{github-api-client}
-  s.version = "0.2.1.2"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakub Okoński"]
-  s.date = %q{2010-12-22}
+  s.date = %q{2010-12-23}
   s.description = %q{Caches retrieved information to your user profile and reuses it when you query again.}
   s.email = %q{kuba@okonski.org}
   s.extra_rdoc_files = [
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "db/migrate/002_create_user_followings.rb",
     "db/migrate/003_create_repos.rb",
     "db/migrate/004_create_repo_watchings.rb",
+    "db/migrate/005_create_organizations.rb",
     "features/github-api-client.feature",
     "features/step_definitions/github-api-client_steps.rb",
     "features/support/env.rb",
@@ -39,6 +40,7 @@ Gem::Specification.new do |s|
     "lib/github-api-client/base.rb",
     "lib/github-api-client/browser.rb",
     "lib/github-api-client/config.rb",
+    "lib/github-api-client/organization.rb",
     "lib/github-api-client/repo.rb",
     "lib/github-api-client/user.rb",
     "spec/github-api-client_spec.rb",
