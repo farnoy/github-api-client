@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{github-api-client}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakub Okoński"]
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "db/migrate/003_create_repos.rb",
     "db/migrate/004_create_repo_watchings.rb",
     "db/migrate/005_create_organizations.rb",
+    "db/migrate/006_create_organizations_members.rb",
     "features/github-api-client.feature",
     "features/step_definitions/github-api-client_steps.rb",
     "features/support/env.rb",
