@@ -1,6 +1,6 @@
 class CreateRepoWatchings < ActiveRecord::Migration
   def self.up
-    create_table :repo_watchings, :id => false, :force => true do |t|
+    create_table :repo_watchings, :id => false do |t|
       t.references :watcher
       t.references :repo
     end
