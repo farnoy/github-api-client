@@ -3,12 +3,11 @@ $:.unshift('./lib/')
 
 require 'github-api-client'
 
-GitHub::Config::Options[:verbose] = true if ARGV.include? '--verbose'
+puts GitHub::Config::Version
 
 unless ARGV.include? 'test'
   # Dev temporary code here
-  #GitHub::Repo.get('parndt/hub').parent.fetch(:self, :watchers).watchers
-  GitHub::User.get('schacon').fetch(:self, :followers, :followings)
+  p GitHub::Organization.get('github')
 else # launches all-features code
   # Performance tests
   GitHub::Repo.get('mojombo/jekyll').fetch(:self, :watchers)
