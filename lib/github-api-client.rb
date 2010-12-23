@@ -20,6 +20,7 @@ GitHub::Config.setup
 require 'github-api-client/base'
 require 'github-api-client/user'
 require 'github-api-client/repo'
+require 'github-api-client/organization'
 require 'github-api-client/browser'
 
 unless $user = GitHub::User.where(GitHub::Config::Secrets).first
