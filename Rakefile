@@ -13,7 +13,6 @@ require 'rake'
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "github-api-client"
   gem.homepage = "http://github.com/farnoy/github-api-client"
   gem.license = "MIT"
@@ -21,15 +20,6 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Caches retrieved information to your user profile and reuses it when you query again.}
   gem.email = "kuba@okonski.org"
   gem.authors = ["Jakub Okoński"]
-  gem.add_runtime_dependency('rainbow', '>=1.1')
-  gem.add_runtime_dependency('activerecord', '>=3.0.3')
-  gem.add_runtime_dependency('sqlite3-ruby', '>=1.3.2')
-  
-  gem.add_development_dependency 'yard', '>= 0.6.0'
-  gem.add_development_dependency 'rspec', '>= 2.3.0'
-  gem.add_development_dependency 'cucumber'
-  gem.add_development_dependency 'bundler', '>= 1.0.0'
-  gem.add_development_dependency 'jeweler', '>= 1.5.2'
 end
 Jeweler::RubygemsDotOrgTasks.new
 

@@ -31,8 +31,8 @@ Gem::Specification.new do |s|
     "db/migrate/004_create_repo_watchings.rb",
     "db/migrate/005_create_organizations.rb",
     "db/migrate/006_create_organizations_members.rb",
-    "features/github-api-client.feature",
-    "features/step_definitions/github-api-client_steps.rb",
+    "features/fetching.feature",
+    "features/step_definitions/fetching_steps.rb",
     "features/support/env.rb",
     "gemspec.old.orig",
     "github-api-client.gemspec",
@@ -66,7 +66,6 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.3"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.3"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 0"])
-      s.add_development_dependency(%q<github-api-client>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 2.3.0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<yard>, [">= 0.6.0"])
@@ -74,20 +73,11 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_development_dependency(%q<jeweler>, [">= 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
-      s.add_runtime_dependency(%q<rainbow>, [">= 1.1"])
-      s.add_runtime_dependency(%q<activerecord>, [">= 3.0.3"])
-      s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 1.3.2"])
-      s.add_development_dependency(%q<yard>, [">= 0.6.0"])
-      s.add_development_dependency(%q<rspec>, [">= 2.3.0"])
-      s.add_development_dependency(%q<cucumber>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, [">= 1.5.2"])
     else
       s.add_dependency(%q<rainbow>, [">= 0"])
       s.add_dependency(%q<activerecord>, [">= 3.0.3"])
       s.add_dependency(%q<activesupport>, [">= 3.0.3"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
-      s.add_dependency(%q<github-api-client>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 2.3.0"])
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<yard>, [">= 0.6.0"])
@@ -95,21 +85,12 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_dependency(%q<jeweler>, [">= 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
-      s.add_dependency(%q<rainbow>, [">= 1.1"])
-      s.add_dependency(%q<activerecord>, [">= 3.0.3"])
-      s.add_dependency(%q<sqlite3-ruby>, [">= 1.3.2"])
-      s.add_dependency(%q<yard>, [">= 0.6.0"])
-      s.add_dependency(%q<rspec>, [">= 2.3.0"])
-      s.add_dependency(%q<cucumber>, [">= 0"])
-      s.add_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_dependency(%q<jeweler>, [">= 1.5.2"])
     end
   else
     s.add_dependency(%q<rainbow>, [">= 0"])
     s.add_dependency(%q<activerecord>, [">= 3.0.3"])
     s.add_dependency(%q<activesupport>, [">= 3.0.3"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
-    s.add_dependency(%q<github-api-client>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 2.3.0"])
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<yard>, [">= 0.6.0"])
@@ -117,14 +98,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, [">= 1.0.0"])
     s.add_dependency(%q<jeweler>, [">= 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
-    s.add_dependency(%q<rainbow>, [">= 1.1"])
-    s.add_dependency(%q<activerecord>, [">= 3.0.3"])
-    s.add_dependency(%q<sqlite3-ruby>, [">= 1.3.2"])
-    s.add_dependency(%q<yard>, [">= 0.6.0"])
-    s.add_dependency(%q<rspec>, [">= 2.3.0"])
-    s.add_dependency(%q<cucumber>, [">= 0"])
-    s.add_dependency(%q<bundler>, [">= 1.0.0"])
-    s.add_dependency(%q<jeweler>, [">= 1.5.2"])
   end
 end
 
