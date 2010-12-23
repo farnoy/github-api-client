@@ -1,6 +1,6 @@
 class CreateRepos < ActiveRecord::Migration
   def self.up
-    create_table :repos, :force => true do |t|
+    create_table :repos do |t|
       %w(name description url language integrate_branch homepage source).each do |attr|
         t.string attr
       end

@@ -6,7 +6,7 @@ module GitHub
       :dir        => ENV['HOME'] + "/.github", 
       :dbfile     => ENV['HOME'] + "/.github/github.db", 
       :migrations => Gem.loaded_specs['github-api-client'].full_gem_path +  "/db/migrate", 
-      :secrets => ENV['HOME'] + "/.github" + "/secrets.yml"
+      :secrets    => ENV['HOME'] + "/.github" + "/secrets.yml"
     } 
     
     Version = File.read(
@@ -55,6 +55,11 @@ You have two ways of defining your user to have authenticated access to your API
         GitHub::Config::Path[:migrations], 
         nil
       ) if not File.exists? GitHub::Config::Path[:dbfile]
+    end
+    
+    def self.reset
+      system "rm #{Path[:dbfile]}"
+      setup
     end
   end
 end
