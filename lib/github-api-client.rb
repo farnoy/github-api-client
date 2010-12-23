@@ -2,9 +2,9 @@
 
 require 'rubygems'
 require 'bundler/setup'
-gem 'github-api-client'
 
-$:.unshift Gem.loaded_specs['github-api-client'].full_gem_path # devel trick
+ROOT = File.expand_path('../', File.dirname(__FILE__))
+$:.unshift File.dirname(__FILE__)
 
 require 'net/http'
 require 'uri'

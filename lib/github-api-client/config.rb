@@ -5,12 +5,12 @@ module GitHub
     Path = {
       :dir        => ENV['HOME'] + "/.github", 
       :dbfile     => ENV['HOME'] + "/.github/github.db", 
-      :migrations => Gem.loaded_specs['github-api-client'].full_gem_path +  "/db/migrate", 
+      :migrations => ROOT +  "/db/migrate", 
       :secrets    => ENV['HOME'] + "/.github" + "/secrets.yml"
     } 
     
     Version = File.read(
-      Gem.loaded_specs['github-api-client'].full_gem_path + "/VERSION"
+      ROOT + "/VERSION"
     )
     VERSION = Version
     
