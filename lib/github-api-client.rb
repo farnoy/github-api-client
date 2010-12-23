@@ -15,7 +15,13 @@ require 'core_ext/habtm'
 require 'rainbow'
 require 'github-api-client/config'
 
-GitHub::Config.setup
+# This hard-coded if's will be soon replaced by Option Parser
+GitHub::Config::Options[:verbose] = true if ARGV.include? '--verbose'
+if ARGV.include? '--reset-db'
+  GitHub::Config.reset
+else
+  GitHub::Config.setup
+end
 
 require 'github-api-client/base'
 require 'github-api-client/user'

@@ -3,10 +3,6 @@ $:.unshift('./lib/')
 
 require 'github-api-client'
 
-GitHub::Config::Options[:verbose] = true if ARGV.include? '--verbose'
-
-GitHub::Config.reset if ARGV.include? '--reset-db'
-
 puts GitHub::Config::Version
 
 unless ARGV.include? 'test'
