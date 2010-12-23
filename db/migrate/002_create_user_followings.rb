@@ -1,6 +1,6 @@
 class CreateUserFollowings < ActiveRecord::Migration
   def self.up
-    create_table :user_followings, :id => false, :force => true do |t|
+    create_table :user_followings, :id => false do |t|
       t.references :follower
       t.references :following
     end

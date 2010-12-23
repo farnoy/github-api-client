@@ -1,6 +1,6 @@
 class CreateUsers < ActiveRecord::Migration
   def self.up
-    create_table :users, :force => true do |t|
+    create_table :users do |t|
       %w(login token type name company location blog email language permission).each do |attr|
         t.string attr
       end
