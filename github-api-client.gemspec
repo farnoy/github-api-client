@@ -5,37 +5,27 @@
 
 Gem::Specification.new do |s|
   s.name = %q{github-api-client}
-  s.version = "0.2.4"
+  s.version = "0.2.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakub Okoński"]
-  s.date = %q{2010-12-23}
+  s.date = %q{2010-12-26}
+  s.default_executable = %q{api-browser.rb}
   s.description = %q{Caches retrieved information to your user profile and reuses it when you query again.}
   s.email = %q{kuba@okonski.org}
+  s.executables = ["api-browser.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
   ]
   s.files = [
-    ".rspec",
-    "Gemfile",
-    "Gemfile.lock",
-    "LICENSE.txt",
-    "README.rdoc",
-    "Rakefile",
     "VERSION",
-    "api-browser.rb",
     "db/migrate/001_create_users.rb",
     "db/migrate/002_create_user_followings.rb",
     "db/migrate/003_create_repos.rb",
     "db/migrate/004_create_repo_watchings.rb",
     "db/migrate/005_create_organizations.rb",
     "db/migrate/006_create_organizations_members.rb",
-    "features/fetching.feature",
-    "features/step_definitions/fetching_steps.rb",
-    "features/support/env.rb",
-    "gemspec.old.orig",
-    "github-api-client.gemspec",
     "lib/core_ext/habtm.rb",
     "lib/github-api-client.rb",
     "lib/github-api-client/base.rb",
@@ -43,9 +33,7 @@ Gem::Specification.new do |s|
     "lib/github-api-client/config.rb",
     "lib/github-api-client/organization.rb",
     "lib/github-api-client/repo.rb",
-    "lib/github-api-client/user.rb",
-    "spec/github-api-client_spec.rb",
-    "spec/spec_helper.rb"
+    "lib/github-api-client/user.rb"
   ]
   s.homepage = %q{http://github.com/farnoy/github-api-client}
   s.licenses = ["MIT"]
@@ -53,6 +41,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Library for easy GitHub API browsing}
   s.test_files = [
+    "features/fetching.feature",
+    "features/step_definitions/fetching_steps.rb",
+    "features/support/env.rb",
     "spec/github-api-client_spec.rb",
     "spec/spec_helper.rb"
   ]
