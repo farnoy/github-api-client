@@ -19,19 +19,19 @@ module GitHub
       users = GitHub::User.all
       repos = GitHub::Repo.all
       puts "Updating Records of all #{"users".color(:yellow).bright}"
-      progress = ProgressBar.new("Updating records", users.count)
+      #progress = ProgressBar.new("Updating records", users.count)
       users.each do |user|
         # Disabled because of its length
         user.fetch(:self)
-        progress.inc
+        #progress.inc
       end
       progress.finish
-      progress = ProgressBar.new("Updating records", repos.count)
+      #progress = ProgressBar.new("Updating records", repos.count)
       repos.each do |repo|
         repo.fetch(:self, :watchers)
-        progress.inc
+        #progress.inc
       end
-      progress.finish
+      #progress.finish
       nil
     end
      
