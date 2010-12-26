@@ -6,9 +6,12 @@ module GitHub
     has_and_belongs_to_many :watchers, :class_name => 'GitHub::User', :join_table => 'repo_watchings', :foreign_key => 'repo_id', :association_foreign_key => 'watcher_id'
     
     def get
-      self.update_attributes GitHub::Base.parse_attributes(:repo_get, 
-        YAML::load(
-          GitHub::Browser.get("/repos/show/#{self.permalink}"))['repository'])
+      info = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}"))['repository']
+      if info.has_key? :organization
+        self.update_attributes GitHub::Base.parse_attributes(:org_repo_get, info)
+      else
+        self.update_attributes GitHub::Base.parse_attributes(:repo_get, info)
+      end
       self
     end
     
@@ -57,21 +60,14 @@ module GitHub
     end
     
     public
-    def owner=(user)
+    def owner_login=(user)
       self.b_org = false
-      self.owner_id = GitHub::User.find_or_create_by_login(user).id if user.class == String
-      if user.class == GitHub::User
-        self.owner_id = user.id
-      end
+      self.owner_user = GitHub::User.find_or_create_by_login(user)
     end
     
-    def organization=(organization)
+    def organization_login=(organization)
       self.b_org = true
-      if organization.class == String
-        self.owner_id = Organization.find_or_create_by_login(organization)
-      else
-        self.owner_id = organization.id
-      end
+      self.owner_org = Organization.find_or_create_by_login(organization)
     end
     
     def parent=(permalink)

@@ -51,19 +51,14 @@ module GitHub
       self.transaction do
         repos.each do |repo|
           i += 1
-          #r   = GitHub::Repo.find_by_url(repo[:url])
-          #r ||= GitHub::Repo.create(GitHub::Base.parse_attributes :org_repo_index, repo)
-          self.repositories.find_or_create GitHub::Repo.find_or_create_by_url(repo[:url])
+          r   = GitHub::Repo.find_by_url(repo[:url])
+          r ||= GitHub::Repo.create(GitHub::Base.parse_attributes :org_repo_index, repo)
+          self.repositories.find_or_create r
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
       puts nil
       self
-    end
-    
-    public
-    def repos
-      repositories
     end
     
   end
