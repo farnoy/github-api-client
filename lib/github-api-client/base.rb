@@ -45,7 +45,7 @@ module GitHub
       hash = case resource
         when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
         when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :nil, :created => :nil, :permission => :nil}
-        when :repo_get then {:fork => :b_fork, :watchers => :nil}
+        when :repo_get then {:fork => :b_fork, :watchers => :nil, :owner => :owner_login}
         when :org_get then {:public_gist_count => nil, :public_repo_count => nil, :following_count => :nil, :followers_count => :nil}
       end
       # Provides abstraction layer between YAML :keys and 'keys' returned by Hub

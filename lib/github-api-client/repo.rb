@@ -49,11 +49,8 @@ module GitHub
     end
     
     public
-    def owner=(user)
-      self.owner_id = GitHub::User.find_or_create_by_login(user).id if user.class == String
-      if user.class == GitHub::User
-        self.owner_id = user.id
-      end
+    def owner_login=(user)
+      self.owner = GitHub::User.find_or_create_by_login(user)
     end
     
     def parent=(permalink)
