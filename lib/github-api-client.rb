@@ -1,7 +1,7 @@
-#!/usr/bin/ruby
-
 require 'rubygems'
-require 'bundler/setup'
+require 'bundler'
+
+Bundler.setup(:default)
 
 ROOT = File.expand_path('../', File.dirname(__FILE__))
 $:.unshift File.dirname(__FILE__)
