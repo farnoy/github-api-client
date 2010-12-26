@@ -5,12 +5,12 @@ class CreateRepos < ActiveRecord::Migration
         t.string attr
       end
       
-      %w(owner parent).each do |attr|
+      %w(owner parent organization).each do |attr|
         t.references attr
       end
       
       # TODO: organization temporarily a string, only when there's no organization model
-      %w(size followers_count forks_count score organization_id forks watchers).each do |attr|
+      %w(size score).each do |attr|
         t.integer attr
       end
       

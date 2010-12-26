@@ -1,7 +1,7 @@
 module GitHub
   class Organization < ActiveRecord::Base
     has_and_belongs_to_many :members, :class_name => 'GitHub::User', :join_table => 'organizations_members'
-    has_and_belongs_to_many :repositories, :class_name => 'GitHub::Repo'
+    has_many :repositories, :class_name => 'GitHub::Repo'
     
     def get
       self.update_attributes(
@@ -53,7 +53,6 @@ module GitHub
           i += 1
           r   = GitHub::Repo.find_by_url(repo[:url])
           r ||= GitHub::Repo.create(GitHub::Base.parse_attributes :org_repo_index, repo)
-          self.repositories.find_or_create r
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end

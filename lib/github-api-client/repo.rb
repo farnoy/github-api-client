@@ -1,17 +1,13 @@
 module GitHub
   class Repo < ActiveRecord::Base
-    belongs_to :owner_user, :foreign_key => 'owner_id', :class_name => 'GitHub::User'
-    belongs_to :owner_org, :foreign_key => 'owner_id', :class_name => 'GitHub::Organization'
+    belongs_to :owner, :class_name => 'GitHub::User'
+    belongs_to :organization, :class_name => 'GitHub::Organization'
     belongs_to :parent, :class_name => 'GitHub::Repo'
     has_and_belongs_to_many :watchers, :class_name => 'GitHub::User', :join_table => 'repo_watchings', :foreign_key => 'repo_id', :association_foreign_key => 'watcher_id'
     
     def get
       info = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}"))['repository']
-      if info.has_key? :organization
-        self.update_attributes GitHub::Base.parse_attributes(:org_repo_get, info)
-      else
-        self.update_attributes GitHub::Base.parse_attributes(:repo_get, info)
-      end
+      self.update_attributes GitHub::Base.parse_attributes(:repo_get, info)
       self
     end
     
@@ -34,14 +30,6 @@ module GitHub
       self
     end
     
-    def owner
-      if self.b_org == true
-        owner_org
-      else
-        owner_user
-      end
-    end
-    
     private
     def get_watchers
       watchers = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers']
@@ -61,13 +49,17 @@ module GitHub
     
     public
     def owner_login=(user)
-      self.b_org = false
-      self.owner_user = GitHub::User.find_or_create_by_login(user)
+      if user
+        self.b_org = false
+        self.owner = GitHub::User.find_or_create_by_login(user)
+      end
     end
     
     def organization_login=(organization)
-      self.b_org = true
-      self.owner_org = Organization.find_or_create_by_login(organization)
+      if organization
+        self.b_org = true
+        self.organization = Organization.find_or_create_by_login(organization)
+      end
     end
     
     def parent=(permalink)
@@ -79,7 +71,8 @@ module GitHub
     end
     
     def permalink
-      "#{owner.login}/#{name}"
+      o = owner.presence || organization.presence
+      "#{o.login}/#{name}"
     end
     
     # For future, when sql will be find_or_create_by_permalink
@@ -89,10 +82,6 @@ module GitHub
     
     def fork?
       b_fork
-    end
-    
-    def belongs_to_organization?
-      b_org
     end
   end
 end
