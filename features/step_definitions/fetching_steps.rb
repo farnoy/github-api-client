@@ -4,12 +4,16 @@ Before do
   end
 end
 
-Given /^I want to fetch user "(.*)"$/ do |login|
+Given /^I fetch user "(.*)"$/ do |login|
   @record = GitHub::User.get(login)
 end
 
-Given /^I want to fetch repo "(.*)"$/ do |permalink|
+Given /^I fetch repo "(.*)"$/ do |permalink|
   @record = GitHub::Repo.get(permalink)
+end
+
+Given /^I fetch organization "(.*)"$/ do |login|
+  @record = GitHub::Organization.get(login)
 end
 
 Then /^my local database should contain that record$/ do
