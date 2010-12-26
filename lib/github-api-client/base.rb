@@ -19,19 +19,19 @@ module GitHub
       users = GitHub::User.all
       repos = GitHub::Repo.all
       puts "Updating Records of all #{"users".color(:yellow).bright}"
-      progress = ProgressBar.new("Updating records", users.count)
+      #progress = ProgressBar.new("Updating records", users.count)
       users.each do |user|
         # Disabled because of its length
         user.fetch(:self)
-        progress.inc
+        #progress.inc
       end
       progress.finish
-      progress = ProgressBar.new("Updating records", repos.count)
+      #progress = ProgressBar.new("Updating records", repos.count)
       repos.each do |repo|
         repo.fetch(:self, :watchers)
-        progress.inc
+        #progress.inc
       end
-      progress.finish
+      #progress.finish
       nil
     end
      
@@ -45,17 +45,22 @@ module GitHub
       hash = case resource
         when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
         when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :nil, :created => :nil, :permission => :nil}
-        when :repo_get then {:fork => :b_fork, :watchers => :nil}
+        when :repo_get then {:fork => :b_fork, :watchers => nil, :owner => :owner_login, :organization => :organization_login, :forks => nil, :followers_count => nil, :forks_count => nil}
         when :org_get then {:public_gist_count => nil, :public_repo_count => nil, :following_count => :nil, :followers_count => :nil}
+        when :org_repo_index then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login}
       end
       # Provides abstraction layer between YAML :keys and 'keys' returned by Hub
-      symbolized_resources = [:repo_get]
+      symbolized_resources = [:repo_get, :org_repo_index, :org_repo_get]
       hash.each do |k, v|
         unless v == :nil || v == nil
-          if symbolized_resources.include? resource
-            attributes[v.to_s] = attributes[k.to_sym]
+          if v.class != Symbol
+            attributes[k.to_s] = v
           else
-            attributes[v.to_s] = attributes[k.to_s]
+            if symbolized_resources.include? resource
+              attributes[v.to_s] = attributes[k.to_sym]
+            else
+              attributes[v.to_s] = attributes[k.to_s]
+            end
           end
         end
         if symbolized_resources.include? resource
