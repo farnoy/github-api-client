@@ -1,5 +1,5 @@
 Before do
-  %w(Repo User).each do |attr|
+  %w(Repo User Organization).each do |attr|
     GitHub.const_get(attr).delete_all
   end
 end
