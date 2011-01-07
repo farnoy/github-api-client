@@ -7,6 +7,6 @@ class CreateOrganizationsMembers < ActiveRecord::Migration
   end
   
   def self.down
-    drop_table :user_followings
+    drop_table :organizations_member
   end
 end

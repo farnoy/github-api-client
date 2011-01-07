@@ -1,6 +1,7 @@
 module GitHub
   class Repo < ActiveRecord::Base
     belongs_to :owner, :class_name => 'GitHub::User'
+    belongs_to :organization, :class_name => 'GitHub::Organization'
     belongs_to :parent, :class_name => 'GitHub::Repo'
     has_and_belongs_to_many :watchers, :class_name => 'GitHub::User', :join_table => 'repo_watchings', :foreign_key => 'repo_id', :association_foreign_key => 'watcher_id'
     
@@ -50,7 +51,17 @@ module GitHub
     
     public
     def owner_login=(user)
-      self.owner = GitHub::User.find_or_create_by_login(user)
+      if user
+        self.b_org = false
+        self.owner = GitHub::User.find_or_create_by_login(user)
+      end
+    end
+    
+    def organization_login=(organization)
+      if organization
+        self.b_org = true
+        self.organization = Organization.find_or_create_by_login(organization)
+      end
     end
     
     def parent=(permalink)
@@ -62,7 +73,8 @@ module GitHub
     end
     
     def permalink
-      "#{owner.login}/#{name}"
+      o = owner.presence || organization.presence
+      "#{o.login}/#{name}"
     end
     
     # For future, when sql will be find_or_create_by_permalink
