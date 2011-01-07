@@ -25,7 +25,6 @@ module GitHub
       else
         conditions.merge! :owner_id => GitHub::Organization.find_or_create_by_login(information.split('/').first).id, :owner_type => 'GitHub::Organization'
       end
-      p conditions
       if r = GitHub::Repo.where(conditions).first
         r.get
       else
