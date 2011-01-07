@@ -20,6 +20,11 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Caches retrieved information to your user profile and reuses it when you query again.}
   gem.email = "kuba@okonski.org"
   gem.authors = ["Jakub Okoński"]
+  
+  gem.files = [Dir.glob('lib/**/*'), Dir.glob('db/**/*'), 'VERSION']
+  gem.executables = ['api-browser.rb']
+  
+  gem.test_files = [Dir.glob('features/**/*'), Dir.glob('spec/**/*')]
 end
 Jeweler::RubygemsDotOrgTasks.new
 

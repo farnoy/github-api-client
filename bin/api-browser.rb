@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-$:.unshift('./lib/')
 
 require 'github-api-client'
 
