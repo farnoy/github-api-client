@@ -1,7 +1,7 @@
 module GitHub
   class Organization < ActiveRecord::Base
     has_and_belongs_to_many :members, :class_name => 'GitHub::User', :join_table => 'organizations_members'
-    has_many :repositories, :class_name => 'GitHub::Repo'
+    has_many :repositories, :class_name => 'GitHub::Repo', :as => :owner
     
     def get
       self.update_attributes(

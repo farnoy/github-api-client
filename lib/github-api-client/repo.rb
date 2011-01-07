@@ -1,24 +1,37 @@
 module GitHub
   class Repo < ActiveRecord::Base
-    belongs_to :owner, :class_name => 'GitHub::User'
-    belongs_to :organization, :class_name => 'GitHub::Organization'
+    belongs_to :owner, :polymorphic => true
     belongs_to :parent, :class_name => 'GitHub::Repo'
     has_and_belongs_to_many :watchers, :class_name => 'GitHub::User', :join_table => 'repo_watchings', :foreign_key => 'repo_id', :association_foreign_key => 'watcher_id'
     
     def get
-      self.update_attributes GitHub::Base.parse_attributes(:repo_get, 
+      parser = case self.owner_type
+        when 'GitHub::User'
+          :repo_get
+        when 'GitHub::Organization'
+          :org_repo_get
+      end
+      self.update_attributes GitHub::Base.parse_attributes(parser, 
         YAML::load(
           GitHub::Browser.get("/repos/show/#{self.permalink}"))['repository'])
       self
     end
     
-    def self.get(information)
+    def self.get(information, o_type = :user)
       #FIXME: permalink column must be present, comparing url's is surely not the most efficient way for the db
-      conditions = {:name => information.split('/').last, :owner_id => GitHub::User.find_or_create_by_login(information.split('/').first).id}
+      conditions = {:name => information.split('/').last}
+      if o_type == :user
+        conditions.merge! :owner_id => GitHub::User.find_or_create_by_login(information.split('/').first).id, :owner_type => 'GitHub::User'
+      else
+        conditions.merge! :owner_id => GitHub::Organization.find_or_create_by_login(information.split('/').first).id, :owner_type => 'GitHub::Organization'
+      end
+      p conditions
       if r = GitHub::Repo.where(conditions).first
         r.get
       else
         r = GitHub::Repo.new(conditions).get
+        p r.parent
+        r
       end
     end
     
@@ -52,29 +65,27 @@ module GitHub
     public
     def owner_login=(user)
       if user
-        self.b_org = false
         self.owner = GitHub::User.find_or_create_by_login(user)
       end
     end
     
     def organization_login=(organization)
       if organization
-        self.b_org = true
-        self.organization = Organization.find_or_create_by_login(organization)
+        self.owner = Organization.find_or_create_by_login(organization)
       end
     end
     
     def parent=(permalink)
+      #FIXME: parent repo does not allow organization to be owner ATM
       owner = GitHub::User.find_or_create_by_login permalink.split('/').first
       name = permalink.split('/').last
-      repo = GitHub::Repo.where(:owner_id => owner.id, :name => name).first
-      repo ||= GitHub::Repo.create(:owner_id => owner.id, :name => name)
+      repo = GitHub::Repo.where(:owner_id => owner.id, :owner_type => 'GitHub::Repo', :name => name).first
+      repo ||= GitHub::Repo.create(:owner => owner, :name => name)
       self.parent_id = repo.id
     end
     
     def permalink
-      o = owner.presence || organization.presence
-      "#{o.login}/#{name}"
+      "#{owner.login}/#{name}"
     end
     
     # For future, when sql will be find_or_create_by_permalink
