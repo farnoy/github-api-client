@@ -21,7 +21,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "kuba@okonski.org"
   gem.authors = ["Jakub Okoński"]
   
-  gem.files = [Dir.glob('lib/**/*'), Dir.glob('db/**/*'), 'VERSION']
+  gem.files = [Dir.glob('lib/**/*'), Dir.glob('db/**/*'), 'VERSION', 'Gemfile', 'Gemfile.lock']
   gem.executables = ['api-browser.rb']
   
   gem.test_files = [Dir.glob('features/**/*'), Dir.glob('spec/**/*')]
