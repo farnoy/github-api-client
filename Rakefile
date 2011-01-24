@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = "github-api-client"
-  gem.homepage = "http://github.com/farnoy/github-api-client"
+  gem.homepage = "http://github.com/okonski/github-api-client"
   gem.license = "MIT"
   gem.summary = %Q{Library for easy GitHub API browsing}
   gem.description = %Q{Caches retrieved information to your user profile and reuses it when you query again.}

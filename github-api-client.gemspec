@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{github-api-client}
-  s.version = "0.2.7"
+  s.version = "0.2.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakub Okoński"]
-  s.date = %q{2011-01-10}
+  s.date = %q{2011-01-24}
   s.default_executable = %q{api-browser.rb}
   s.description = %q{Caches retrieved information to your user profile and reuses it when you query again.}
   s.email = %q{kuba@okonski.org}
@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
     "lib/github-api-client/repo.rb",
     "lib/github-api-client/user.rb"
   ]
-  s.homepage = %q{http://github.com/farnoy/github-api-client}
+  s.homepage = %q{http://github.com/okonski/github-api-client}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
