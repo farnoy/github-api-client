@@ -5,15 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{github-api-client}
-  s.version = "0.2.8"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Jakub Okoński"]
-  s.date = %q{2011-01-24}
-  s.default_executable = %q{api-browser.rb}
+  s.authors = [%q{Jakub Okoński}]
+  s.date = %q{2011-05-07}
   s.description = %q{Caches retrieved information to your user profile and reuses it when you query again.}
   s.email = %q{kuba@okonski.org}
-  s.executables = ["api-browser.rb"]
+  s.executables = [%q{api-browser.rb}]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -38,9 +37,9 @@ Gem::Specification.new do |s|
     "lib/github-api-client/user.rb"
   ]
   s.homepage = %q{http://github.com/okonski/github-api-client}
-  s.licenses = ["MIT"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.licenses = [%q{MIT}]
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.1}
   s.summary = %q{Library for easy GitHub API browsing}
   s.test_files = [
     "features/fetching.feature",
@@ -51,7 +50,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
@@ -63,8 +61,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<yard>, [">= 0.6.0"])
       s.add_development_dependency(%q<cucumber>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, [">= 1.5.2"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
     else
       s.add_dependency(%q<rainbow>, [">= 0"])
@@ -75,8 +72,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<yard>, [">= 0.6.0"])
       s.add_dependency(%q<cucumber>, [">= 0"])
-      s.add_dependency(%q<bundler>, [">= 1.0.0"])
-      s.add_dependency(%q<jeweler>, [">= 1.5.2"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
@@ -88,8 +84,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<yard>, [">= 0.6.0"])
     s.add_dependency(%q<cucumber>, [">= 0"])
-    s.add_dependency(%q<bundler>, [">= 1.0.0"])
-    s.add_dependency(%q<jeweler>, [">= 1.5.2"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
   end
 end

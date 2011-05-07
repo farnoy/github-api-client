@@ -53,9 +53,8 @@ PLATFORMS
 DEPENDENCIES
   activerecord (>= 3.0.3)
   activesupport (>= 3.0.3)
-  bundler (>= 1.0.0)
   cucumber
-  jeweler (>= 1.5.2)
+  jeweler (~> 1.5.2)
   mocha
   rainbow
   rcov
