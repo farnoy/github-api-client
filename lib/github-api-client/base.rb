@@ -45,9 +45,9 @@ module GitHub
       hash = case resource
         when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
         when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :nil, :created => :nil, :permission => :nil}
-        when :repo_get then {:fork => :b_fork, :watchers => nil, :owner => :owner_login, :forks => nil, :followers_count => nil, :forks_count => nil}
+        when :repo_get then {:fork => :b_fork, :watchers => nil, :owner => :owner_login, :forks => nil, :followers_count => nil, :forks_count => nil, :master_branch => nil}
         when :org_get then {:public_gist_count => nil, :public_repo_count => nil, :following_count => :nil, :followers_count => :nil}
-        when :org_repo_index then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login}
+        when :org_repo_index then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login, :master_branch => nil}
         when :org_repo_get then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login}
       end
       # Provides abstraction layer between YAML :keys and 'keys' returned by Hub
