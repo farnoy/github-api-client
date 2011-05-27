@@ -38,7 +38,7 @@ You have three ways of defining your user to have authenticated access to your A
         #{"login".color(:green).bright}: #{"your_login".color(:magenta)}
         #{"token".color(:blue).bright}: #{"your_token".color(:magenta)}
   #{"2.".color(:cyan)} Put #{"GITHUB_USER".color(:green).bright} and #{"GITHUB_TOKEN".color(:blue).bright} in your environment, so github-api-client can read it.
-  #{"3.".color(:cyan)} Configure you global git profile as defined here #{"http://help.github.com/git-email-settings/".color(:blue).bright}
+  #{"3.".color(:cyan)} Configure your global git profile as defined here #{"http://help.github.com/git-email-settings/".color(:blue).bright}
   
       report
     end
