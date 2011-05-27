@@ -10,7 +10,7 @@ You have three ways of defining your user to have authenticated access to your A
         login: your_login
         token: your_token
   2. Put GITHUB_USER and GITHUB_TOKEN in your environment, so github-api-client can read it.
-  3. Configure you global git profile as defined here http://help.github.com/git-email-settings/
+  3. Configure you global git profile as defined here [http://help.github.com/git-email-settings](http://help.github.com/git-email-settings)
 
 == Contributing to github-api-client
  
