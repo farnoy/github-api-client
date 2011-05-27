@@ -2,6 +2,16 @@
 
 Description goes here.
 
+= Configuration
+You have three ways of defining your user to have authenticated access to your API:
+  1. Put a file in: /Users/parker/.github/secrets.yml
+    Define in yaml:
+      user:
+        login: your_login
+        token: your_token
+  2. Put GITHUB_USER and GITHUB_TOKEN in your environment, so github-api-client can read it.
+  3. Configure you global git profile as defined here http://help.github.com/git-email-settings/
+
 == Contributing to github-api-client
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet

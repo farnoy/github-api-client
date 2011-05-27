@@ -31,13 +31,14 @@ module GitHub
     rescue Errno::ENOENT
       # Eye candy with rainbow
       puts <<-report
-You have two ways of defining your user to have authenticated access to your API:
+You have three ways of defining your user to have authenticated access to your API:
   #{"1.".color(:cyan)} Put a file in: #{GitHub::Config::Path[:secrets].color(:blue).bright}
     Define in yaml:
       #{"user".color(:yellow).bright}:
         #{"login".color(:green).bright}: #{"your_login".color(:magenta)}
         #{"token".color(:blue).bright}: #{"your_token".color(:magenta)}
   #{"2.".color(:cyan)} Put #{"GITHUB_USER".color(:green).bright} and #{"GITHUB_TOKEN".color(:blue).bright} in your environment, so github-api-client can read it.
+  #{"3.".color(:cyan)} Configure you global git profile as defined here #{"http://help.github.com/git-email-settings/".color(:blue).bright}
   
       report
     end
