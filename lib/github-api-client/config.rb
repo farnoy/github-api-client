@@ -20,10 +20,10 @@ module GitHub
       "token" => ENV['GITHUB_TOKEN']
     } if ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']
     
-    Secrets ||= {
-      "login" => `git config --global github.user`.strip, 
-      "token" => `git config --global github.token`.strip
-    } if `git config --global github.user` && `git config --global github.token`
+   # Secrets ||= {
+   #   "login" => `git config --global github.user`.strip, 
+   #   "token" => `git config --global github.token`.strip
+   # } if !`git config --global github.user`.empty? && !`git config --global github.token`.empty?
     
     begin
       # If not env vars, then ~/.github/secrets.yml
