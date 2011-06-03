@@ -3,12 +3,15 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "GitHub Api Client" do
 
    before(:all) do
-      
+
       @real_github_user = `git config --global github.user`.strip
       @real_github_token = `git config --global github.token`.strip
 
-      `git config --global github.user "test"`
-      `git config --global github.token "token"`
+      `git config --global --unset github.user`
+      `git config --global --unset github.token`
+
+
+    
 
    end
 
@@ -43,13 +46,17 @@ describe "GitHub Api Client" do
       end
 
       it "should find git config setting for github user if defined" do
+         `git config --global github.user "test"`
          `git config --global github.user`.strip.should == 'test'
-         
+         `git config --global --unset github.user`
+
+
       end
 
       it "should find git config setting for github token if defined" do
+         `git config --global github.token "token"`
          `git config --global github.token`.strip.should == 'token'
-         
+         `git config --global --unset github.token`
       end
 
       it "should fall through if no user is defined" do
