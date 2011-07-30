@@ -4,7 +4,7 @@ Description goes here.
 
 = Configuration
 You have three ways of defining your user to have authenticated access to your API:
-  1. Put a file in: /Users/parker/.github/secrets.yml
+  1. Put a file in: ~/.github/secrets.yml or \Users\username\.github\secrets.yml
     Define in yaml:
       user:
         login: your_login
