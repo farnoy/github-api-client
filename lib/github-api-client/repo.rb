@@ -47,7 +47,7 @@ module GitHub
     private
     def get_watchers
       watchers = YAML::load(GitHub::Browser.get("/repos/show/#{self.permalink}/watchers"))['watchers']
-      puts "Fetching watchers for #{"repo".color(:blue).bright} #{self.permalink.color(:green).bright}"
+      puts "Fetching watchers for #{"repo".color(:blue).bright} #{self.permalink.dup.color(:green).bright}"
       i, count = 0, watchers.count.to_s.color(:green).bright
       self.transaction do
         watchers.each do |watcher|

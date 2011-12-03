@@ -30,7 +30,7 @@ module GitHub
     private
     def get_members
       members = YAML::load(GitHub::Browser.get "/organizations/#{login}/public_members")['users']
-      puts "Fetching members for #{"organization".color(:magenta).bright} #{self.login.color(:green).bright}"
+      puts "Fetching members for #{"organization".color(:magenta).bright} #{self.login.dup.color(:green).bright}"
       i, count = 0, members.count.to_s.color(:green).bright
       self.transaction do
         members.each do |user|
@@ -46,7 +46,7 @@ module GitHub
       
     def get_repositories
       repos = YAML::load(GitHub::Browser.get "/organizations/#{login}/public_repositories")['repositories']
-      puts "Fetching repositories for #{"organization".color(:magenta).bright} #{self.login.color(:green).bright}"
+      puts "Fetching repositories for #{"organization".color(:magenta).bright} #{self.login.dup.color(:green).bright}"
       i, count = 0, repos.count.to_s.color(:green).bright
       self.transaction do
         repos.each do |repo|
