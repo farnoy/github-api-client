@@ -66,6 +66,7 @@ module GitHub
           when :followers then get_followers
           when :followings then get_followings
           when :organizations then get_organizations
+          when :repos then get_repos
         end
       end
       self
@@ -76,8 +77,8 @@ module GitHub
     # @return GitHub::User Chainable after mapping followers association
     private 
     def get_followers
-      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users']
-      puts "Fetching followers for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
+      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/followers")['users'] || []
+      puts "Fetching followers for #{"user".color(:yellow).bright} #{self.login.dup.color(:green).bright}"
       i, count = 0, users.count.to_s.color(:green).bright
       self.transaction do
         users.each do |user|
@@ -92,8 +93,8 @@ module GitHub
     end
     
     def get_followings
-      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users']
-      puts "Fetching followings for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
+      users = YAML::load(GitHub::Browser.get "/user/show/#{login}/following")['users'] || []
+      puts "Fetching followings for #{"user".color(:yellow).bright} #{self.login.dup.color(:green).bright}"
       i, count = 0, users.count.to_s.color(:green).bright
       self.transaction do
         users.each do |user|
@@ -108,8 +109,8 @@ module GitHub
     end
     
     def get_organizations
-      organizations = YAML::load(GitHub::Browser.get "/user/show/#{login}/organizations")['organizations']
-      puts "Fetching organizations for #{"user".color(:yellow).bright} #{self.login.color(:green).bright}"
+      organizations = YAML::load(GitHub::Browser.get "/user/show/#{login}/organizations")['organizations'] || []
+      puts "Fetching organizations for #{"user".color(:yellow).bright} #{self.login.dup.color(:green).bright}"
       i, count = 0, organizations.count.to_s.color(:green).bright
       self.transaction do
         organizations.each do |org|
@@ -123,6 +124,26 @@ module GitHub
       self
     end
     
+    # Executes when you got a real object
+    # @see GitHub::User#fetch
+    # @return GitHub::User Chainable after mapping followers association
+    def get_repos
+      repos = YAML::load(GitHub::Browser.get "/repos/show/#{login}")['repositories'] || []
+      puts "Fetching repositories for #{"user".color(:yellow).bright} #{self.login.dup.color(:green).bright}"
+      i, count = 0, repos.count.to_s.color(:green).bright
+      self.transaction do
+        repos.each do |repo|
+          i += 1
+          u = GitHub::User.find_or_create_by_login(repo[:owner])
+          r = GitHub::Repo.where(:owner_id => u.id, :name => repo[:name]).first
+          r ||= GitHub::Repo.create(:owner => u, :name => repo[:name])
+          print "\r#{i.to_s.color(:yellow).bright}/#{count}"
+        end
+      end
+      puts nil
+      self
+    end
+
     public
     # Returns an array with logins of GitHub::User followers
     # @param [String] login GitHub login of which followers will be mapped
