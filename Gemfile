@@ -1,16 +1,15 @@
 source "http://rubygems.org"
 
 gem "rainbow"
-gem "activerecord", ">= 3.0.3"
-gem "activesupport", ">= 3.0.3"
+gem "activerecord", ">= 3.1.0"
+gem "activesupport", ">= 3.1.0"
 gem "sqlite3-ruby"
 
 group :development do
-  gem "rspec", ">= 2.3.0"
-  gem "mocha"
-  gem "yard", ">= 0.6.0"
-  gem "cucumber"
+  gem "rspec", ">= 2.7.0"
+  gem "mocha", ">= 0.10"
+  gem "yard"
   #gem "bundler"
-  gem "jeweler", "~> 1.5.2"
+  gem "jeweler", ">= 1.6.4"
   gem "rcov"
 end

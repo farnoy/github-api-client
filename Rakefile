@@ -10,6 +10,7 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 require 'rake'
+include Rake::DSL # supressess jeweler warnings
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
@@ -26,7 +27,6 @@ Jeweler::Tasks.new do |gem|
   
   gem.test_files = [Dir.glob('features/**/*'), Dir.glob('spec/**/*')]
 end
-Jeweler::RubygemsDotOrgTasks.new
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
@@ -38,9 +38,6 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
-
-require 'cucumber/rake/task'
-Cucumber::Rake::Task.new(:features)
 
 task :default => :spec
 
