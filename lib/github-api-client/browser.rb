@@ -10,7 +10,8 @@ module GitHub
     # @option version "v3"
     # @return [String] Base GitHub API url for v2
     def self.base_uri(version = 'v2')
-      "http://github.com/api/#{version}/yaml"
+      gh_uri = GitHub::Config::Options[:server]||'github.com'
+      "http://#{gh_uri}/api/#{version}/yaml"
     end
     
     # Runs HTTP GET request at given uri
