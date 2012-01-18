@@ -10,7 +10,8 @@ module GitHub
     # @option version "v3"
     # @return [String] Base GitHub API url for v2
     def self.base_uri(version = 'v2')
-      "http://github.com/api/#{version}/yaml"
+      gh_uri = GitHub::Config::Options[:server]||'github.com'
+      "http://#{gh_uri}/api/#{version}/yaml"
     end
     
     # Runs HTTP GET request at given uri
@@ -29,6 +30,15 @@ module GitHub
       uri = uri.gsub(" ","+")
       puts "Requesting #{URI.parse(self.base_uri(version) + uri)} with options: #{options}" if GitHub::Config::Options[:verbose]
       Net::HTTP.post_form URI.parse(self.base_uri + uri), options
+    end
+
+    # Runs HTTP PATCH request at a given uri
+    # @param [String] uri URI to be joined with base_uri and requested
+    # @return [String] request result
+    def self.patch(uri, options = {}, version = 'v2')
+      uri = uri.gsub(" ","+")
+      puts "Requesting #{URI.parse(self.base_uri(version) + uri)} with options: #{options}" if GitHub::Config::Options[:verbose]
+      Net::HTTP.patch URI.parse(self.base_uri + uri), options
     end
   end
 end
