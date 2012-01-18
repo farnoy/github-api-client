@@ -60,6 +60,7 @@ DEPENDENCIES
   jeweler (>= 1.6.4)
   mocha (>= 0.10)
   rainbow
+  rake (= 0.8.7)
   rcov
   rspec (>= 2.7.0)
   sqlite3
