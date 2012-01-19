@@ -36,7 +36,7 @@ module GitHub
         members.each do |user|
           i += 1
           u = GitHub::User.find_or_create_by_login(user['login'])
-          self.members.find_or_create u
+          self.association(:members).find_or_create u
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end

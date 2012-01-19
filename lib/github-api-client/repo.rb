@@ -53,7 +53,7 @@ module GitHub
         watchers.each do |watcher|
           i += 1
           attr = {:login => watcher}
-          self.watchers.find_or_create(GitHub::User.find_or_create_by_login(attr))
+          self.association(:watchers).find_or_create(GitHub::User.find_or_create_by_login(attr))
           print "\r#{i.to_s.color(:blue).bright}/#{count}"
         end
       end

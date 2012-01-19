@@ -84,7 +84,7 @@ module GitHub
         users.each do |user|
           i += 1
           u = GitHub::User.find_or_create_by_login(user)
-          self.followers.find_or_create u
+          self.association(:followers).find_or_create u
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
@@ -100,7 +100,7 @@ module GitHub
         users.each do |user|
           i += 1
           u = GitHub::User.find_or_create_by_login(user)
-          self.followings.find_or_create u
+          self.association(:followings).find_or_create u
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
@@ -116,7 +116,7 @@ module GitHub
         organizations.each do |org|
           i += 1
           u = GitHub::Organization.find_or_create_by_login(org['login'])
-          self.organizations.find_or_create u
+          self.association(:organizations).find_or_create u
           print "\r#{i.to_s.color(:yellow).bright}/#{count}"
         end
       end
