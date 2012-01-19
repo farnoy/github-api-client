@@ -12,10 +12,13 @@ Gem::Specification.new do |s|
   s.date = %q{2011-05-07}
   s.description = %q{Caches retrieved information to your user profile and reuses it when you query again.}
   s.email = %q{kuba@okonski.org}
-  s.executables = [%q{api-browser.rb}]
+  s.executables = [
+    "github-api-client",
+    "api-browser.rb"
+  ]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     "Gemfile",

@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'github-api-client'
+
+# These are the default option values. By setting them
+# before we parse the arguments, we make sure we don't have
+# any missing argument wonkyness
+GitHub::Config::Options[:verbose] = false
+GitHub::Config::Options[:server] = 'github.com'
+GitHub::Config::Options[:reset_db] = false
+
+OptionParser.new { |opts|
+
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+  end
+  opts.on( '-v', '--verbose', 'Enable Verbose Output') do
+    GitHub::Config::Options[:verbose] = true
+  end
+  opts.on( '-s', '--server SERVER', 'Change the GitHub server') do |host|
+    GitHub::Config::Options[:server] = host
+  end
+  opts.on( '-r', '--reset-db', 'Reset the database') do
+    GitHub::Config::Options[:reset_db] = true
+  end
+
+}.parse!
+
+GitHub::Config::Options[:reset_db] ? GitHub::Config.reset : GitHub::Config.setup
+
+puts GitHub::Organization.get('rails').fetch(:repositories).repositories.watchers.map { |x| x.attributes }

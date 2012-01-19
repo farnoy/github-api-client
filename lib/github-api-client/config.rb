@@ -15,29 +15,36 @@ module GitHub
     VERSION = Version
     
     # Secrets array, uses env vars if defined
-    Secrets = {
-      "login" => ENV['GITHUB_USER'], 
-      "token" => ENV['GITHUB_TOKEN']
-    } if ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']
-    
-    begin
-      # If not env vars, then ~/.github/secrets.yml
-      Secrets ||= YAML::load_file(GitHub::Config::Path[:secrets])['user']
-    rescue Errno::ENOENT
-      # Eye candy with rainbow
-      puts <<-report
-You have two ways of defining your user to have authenticated access to your API:
+    Secrets = case
+    when ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']
+      {
+        "login" => ENV['GITHUB_USER'], 
+        "token" => ENV['GITHUB_TOKEN']
+      }
+    when `git config --global github.user` && !`git config --global github.token`
+      {
+        "login" => `git config --global github.user`.strip, 
+        "token" => `git config --global github.token`.strip
+      } if `git config --global github.user` && !`git config --global github.token`
+    else
+      begin
+        # If not env vars, then ~/.github/secrets.yml
+        YAML::load_file(GitHub::Config::Path[:secrets])['user']
+      rescue Errno::ENOENT
+        # Eye candy with rainbow
+        puts <<-report
+You have three ways of defining your user to have authenticated access to your API:
   #{"1.".color(:cyan)} Put a file in: #{GitHub::Config::Path[:secrets].color(:blue).bright}
     Define in yaml:
       #{"user".color(:yellow).bright}:
         #{"login".color(:green).bright}: #{"your_login".color(:magenta)}
         #{"token".color(:blue).bright}: #{"your_token".color(:magenta)}
   #{"2.".color(:cyan)} Put #{"GITHUB_USER".color(:green).bright} and #{"GITHUB_TOKEN".color(:blue).bright} in your environment, so github-api-client can read it.
-  
+  #{"3.".color(:cyan)} Configure your global git profile as defined here #{"http://help.github.com/git-email-settings/".color(:blue).bright}
+
       report
+      end
     end
-    
-    Secrets ||= nil
     
     Options = {
       :verbose => false
@@ -58,7 +65,7 @@ You have two ways of defining your user to have authenticated access to your API
     end
     
     def self.reset
-      system "rm #{Path[:dbfile]}"
+      File.delete Path[:dbfile]
       setup
     end
   end
