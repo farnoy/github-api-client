@@ -42,6 +42,7 @@ module GitHub
     # @param [Hash] attributes GitHub API retrieved attributes to be parsed
     # @return [Hash] parsed attributes, fully compatibile with local db
     def self.parse_attributes(resource, attributes)
+      return {} unless attributes # Guard against empty results
       hash = case resource
         when :user_get then {:public_repo_count => :nil, :public_gist_count => :nil, :created => :nil, :permission => :nil, :followers_count => :nil, :following_count => :nil}
         when :user_search then {:name => :login, :username => :login, :fullname => :name, :followers => :nil, :repos => :nil, :created => :nil, :permission => :nil}
@@ -49,6 +50,7 @@ module GitHub
         when :org_get then {:public_gist_count => nil, :public_repo_count => nil, :following_count => :nil, :followers_count => :nil}
         when :org_repo_index then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login, :master_branch => nil}
         when :org_repo_get then {:owner => nil, :open_issues => nil, :has_issues => nil, :watchers => nil, :forks => nil, :fork => :b_fork, :gravatar_id => nil, :organization => :organization_login}
+        else raise "Unknown resource #{resource.inspect} with attributes #{attributes.inspect}"
       end
       # Provides abstraction layer between YAML :keys and 'keys' returned by Hub
       symbolized_resources = [:repo_get, :org_repo_index, :org_repo_get]
