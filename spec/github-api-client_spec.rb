@@ -72,6 +72,10 @@ describe "GitHub Api Client" do
 
             it "should print messages" do
                GitHub::Config::Options.expects(:"[]").with(:verbose).returns(true)
+               GitHub::Browser.expects(:base_uri).once.returns("")
+               uri = mock("URI")
+               URI.expects(:parse).returns uri
+               Net::HTTP.expects(:get).with uri
                $stdout.expects(:puts).once
                GitHub::Browser.get("/users/show/farnoy")
             end
@@ -82,6 +86,10 @@ describe "GitHub Api Client" do
 
             it "should not print messages" do
                GitHub::Config::Options.expects(:"[]").with(:verbose).returns(false)
+               GitHub::Browser.expects(:base_uri).once.returns("")
+               uri = mock("URI")
+               URI.expects(:parse).returns uri
+               Net::HTTP.expects(:get).with uri
                $stdout.expects(:puts).never
                GitHub::Browser.get("/users/show/farnoy")
             end
