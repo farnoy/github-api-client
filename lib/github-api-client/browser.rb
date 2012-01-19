@@ -18,18 +18,18 @@ module GitHub
     # @param [String] uri URI to be joined with base_uri and requested
     # @return [String] request result
     def self.get(uri, version = 'v2')
-      uri = uri.gsub(" ","+")
-      puts "Requesting #{URI.parse(self.base_uri(version) + uri)}" if GitHub::Config::Options[:verbose]
-      Net::HTTP.get URI.parse(self.base_uri + uri)
+      uri = URI.parse(self.base_uri(version) + uri.gsub(" ","+"))
+      puts "Requesting #{uri}" if GitHub::Config::Options[:verbose]
+      Net::HTTP.get uri
     end
     
     # Runs HTTP POST requests with options such as GitHub::User.auth_info
     # @param [String] uri URI to be joined with base_uri and requested
     # @return [String] request result
     def self.post(uri, options = {}, version = 'v2')
-      uri = uri.gsub(" ","+")
-      puts "Requesting #{URI.parse(self.base_uri(version) + uri)} with options: #{options}" if GitHub::Config::Options[:verbose]
-      Net::HTTP.post_form URI.parse(self.base_uri + uri), options
+      uri = URI.parse(self.base_uri(version) + uri.gsub(" ","+"))
+      puts "Requesting #{uri} with options: #{options}" if GitHub::Config::Options[:verbose]
+      Net::HTTP.post_form uri, options
     end
 
     # Runs HTTP PATCH request at a given uri
