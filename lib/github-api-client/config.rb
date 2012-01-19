@@ -65,7 +65,7 @@ You have three ways of defining your user to have authenticated access to your A
     end
     
     def self.reset
-      system "rm #{Path[:dbfile]}"
+      File.delete Path[:dbfile]
       setup
     end
   end

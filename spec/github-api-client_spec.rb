@@ -9,10 +9,9 @@ describe "GitHub Api Client" do
 
       `git config --global --unset github.user`
       `git config --global --unset github.token`
-
-
-    
-
+      
+      GitHub::Config.setup
+      
    end
 
    after(:all) do
@@ -61,9 +60,9 @@ describe "GitHub Api Client" do
 
       it "should fall through if no user is defined" do
          `git config --global --unset github.user`
+         GitHub::Config.expects(:setup).once
+         File.expects(:delete).with(GitHub::Config::Path[:dbfile]).once
          GitHub::Config.reset
-         $stdout.expects(:puts)
-         load 'github-api-client/config.rb'
       end
 
 
