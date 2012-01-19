@@ -26,7 +26,7 @@ Jeweler::Tasks.new do |gem|
   gem.files = [Dir.glob('lib/**/*'), Dir.glob('db/**/*'), 'VERSION', 'Gemfile', 'Gemfile.lock']
   gem.executables = ['api-browser.rb']
   
-  gem.test_files = [Dir.glob('features/**/*'), Dir.glob('spec/**/*')]
+  gem.test_files = Dir.glob('features/**/*') + Dir.glob('spec/**/*')
 end
 
 require 'rspec/core'
