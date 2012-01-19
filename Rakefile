@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'bundler'
+include Rake::DSL
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
