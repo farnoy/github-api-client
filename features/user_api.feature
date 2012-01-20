@@ -50,7 +50,7 @@ Feature: User frontend
 	
 	Scenario: User's blog
 		Given the "blog" property
-		Then the property should be true
+		Then the property should be "http://chriswanstrath.com/"
 		And the property should be writable
 	
 	Scenario: Saving User
