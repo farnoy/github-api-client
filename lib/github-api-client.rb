@@ -6,7 +6,7 @@ $:.unshift File.dirname(__FILE__)
 
 require 'net/http'
 require 'uri'
-require 'yaml'
+require 'json'
 require 'singleton'
 require 'active_record'
 require 'core_ext/habtm'
@@ -22,14 +22,20 @@ else
 end
 
 require 'github-api-client/base'
-require 'github-api-client/user'
-require 'github-api-client/repo'
-require 'github-api-client/organization'
+#require 'github-api-client/user'
+#require 'github-api-client/repo'
+#require 'github-api-client/organization'
 require 'github-api-client/browser'
 
-unless $user = GitHub::User.where(GitHub::Config::Secrets).first
-  $user = GitHub::User.create(GitHub::Config::Secrets)
-end if GitHub::Config::Secrets
+# Resources
+require 'github-api-client/resource'
+Dir[File.expand_path("github-api-client/resources/*.rb", File.dirname(__FILE__))].each do |lib|
+	require lib
+end
+
+#unless $user = GitHub::User.where(GitHub::Config::Secrets).first
+#  $user = GitHub::User.create(GitHub::Config::Secrets)
+#end if GitHub::Config::Secrets
 
 
 # General placeholder for all of the GitHub API sweets
