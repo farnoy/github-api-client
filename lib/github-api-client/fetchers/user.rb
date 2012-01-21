@@ -3,13 +3,21 @@ module GitHub
     module User
       def self.get(login)
         attributes = {}
-        Browser.start do |http|
-          request = Net::HTTP::Get.new "/users/#{login}"
-          attributes = Fetchers.parse(http.request(request).body)
+        model = Models::User.find_by_login(login)
+        unless model
+          Browser.start do |http|
+            request = Net::HTTP::Get.new "/users/#{login}"
+            attributes = Fetchers.parse(http.request(request).body)
+          end
+        else
+          # optional, but whatever
+          attributes = Resources::User.valid_attributes(model.attributes)
         end
-        Resources::User.new.tap do |user|
+        user = Resources::User.new.tap do |user|
           user.attributes = user.class.valid_attributes(attributes)
         end
+        model ||= Models::User.create(user.attributes)
+        return model
       end
 
       def self.association_repositories(user)
