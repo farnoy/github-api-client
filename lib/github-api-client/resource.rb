@@ -26,6 +26,12 @@ module Resource
       end if class_variable_get(:@@pushables).include? key
     end
 
+		define_singleton_method :valid_attributes do |options|
+			options.select do |element|
+				class_variable_get(:@@attributes).include? element
+			end
+		end
+
 		class_variable_get(:@@associations).each_pair do |key, value|
 			define_method key do
 				return ::GitHub::Fetchers.const_get(self.class).send(:"association_#{key}")
