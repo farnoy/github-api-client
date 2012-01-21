@@ -1,5 +1,6 @@
 require 'active_support/concern'
 require 'active_model/dirty'
+require 'active_support/core_ext/string'
 
 module Resource
   extend ActiveSupport::Concern
@@ -40,6 +41,15 @@ module Resource
     
     define_method :save do
       @changed_attributes.clear
+    end
+
+    define_method :inspect do
+      s = "#<Resource:#{self.class.to_s.split('::').last}"
+      instance_variable_get(:@attributes).each do |key, value|
+        value = "\"#{value.truncate(20, separator: ' ')}\"" if value.is_a? String
+        s += " #{key}: #{value}" if not value.to_s.empty?
+      end
+      s += ">"
     end
   end
 
