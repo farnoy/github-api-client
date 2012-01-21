@@ -54,9 +54,10 @@ module Resource
 
     # Create ActiveRecord model (for storing locally)
     GitHub.const_set :Models, Module.new unless GitHub.const_defined? :Models
-    klass = GitHub::Models.const_set self.name.to_s.split('::').last.to_sym, (Class.new(ActiveRecord::Base))
+    const_name = self.name.to_s.split('::').last.to_sym
+    klass = GitHub::Models.const_set const_name, (Class.new(ActiveRecord::Base))
     klass.class_exec do
-      GitHub::Resources.const_get(self.name.to_s.split('::').last.to_sym).class_variable_get(:@@associations).each_pair do |key, value|
+      GitHub::Resources.const_get(const_name).class_variable_get(:@@associations).each_pair do |key, value|
         self.class_exec &value.last
       end
     end
