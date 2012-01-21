@@ -74,3 +74,15 @@ Feature: User frontend
 		When I fetch resource's repositories
 		Then I can access resource's private repositories
 			And accessed data should be a set of repositories
+	
+	Scenario: Getting user's followers
+		Given that I am trying to fetch resource's followers
+		When I fetch resource's followers
+		Then I can access resource's followers
+			And accessed data should be a set of users
+	
+	Scenario: Getting user's followings
+		Given that I am trying to fetch resource's followings
+		When I fetch resource's followings
+		Then I can access resource's followings
+			And accessed data should be a set of users
