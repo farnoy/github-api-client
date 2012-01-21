@@ -34,6 +34,7 @@ else
 end
 
 # Fetchers
+require 'github-api-client/fetchers'
 Dir[File.expand_path("github-api-client/fetchers/*.rb", File.dirname(__FILE__))].each do |lib|
 	require lib
 end

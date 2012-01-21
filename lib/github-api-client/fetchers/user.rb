@@ -5,7 +5,7 @@ module GitHub
         attributes = {}
         Browser.start do |http|
           request = Net::HTTP::Get.new "/users/#{login}"
-          attributes = JSON.parse(http.request(request).body, symbolize_names: true)
+          attributes = Fetchers.parse(http.request(request).body)
         end
         Resources::User.new.tap do |user|
           user.attributes = user.class.valid_attributes(attributes)
@@ -16,7 +16,7 @@ module GitHub
         attributes = {}
         Browser.start do |http|
           request = Net::HTTP::Get.new "/users/#{user.login}/repos"
-          attributes = JSON.parse(http.request(request).body, symbolize_names: true)
+          attributes = Fetchers.parse(http.request(request).body)
         end
         # further iterate and create Resources::Repository
       end
