@@ -4,14 +4,11 @@ module GitHub
     include Singleton
     
     # Returnes root uri for GitHub API
-    # @param [String] version GitHub api keyword, defaults to v2
-    # @option version "v1"
-    # @option version "v2"
-    # @option version "v3"
-    # @return [String] Base GitHub API url for v2
-    def self.base_uri(version = 'v2')
-      gh_uri = GitHub::Config::Options[:server]||'github.com'
-      "http://#{gh_uri}/api/#{version}/yaml"
+		# @param [Object] *options only for backwards compatibility!
+    # @return [String] Base GitHub API url
+    def self.base_uri(*options)
+      gh_uri = GitHub::Config::Options[:server]||'api.github.com'
+      "http://#{gh_uri}/"
     end
     
     # Runs HTTP GET request at given uri
