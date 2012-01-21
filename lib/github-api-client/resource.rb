@@ -12,6 +12,7 @@ module Resource
     
     define_method :initialize do
       instance_variable_set(:@attributes, {})
+			instance_variable_set(:@changed_attributes, {})
     end
     
     class_variable_get(:@@attributes).each_pair do |key, value|
@@ -20,11 +21,16 @@ module Resource
         return self.instance_variable_get(:@attributes)[key]
       end
       define_method "#{key}=" do |o|
-        p self.methods
-        send(:"#{key}_will_change!") unless o == self.instance_variable_get(:@attributes)[key]
+        send(:attribute_will_change!, key) unless o == self.instance_variable_get(:@attributes)[key]
         return instance_variable_get(:@attributes)[key] = o
       end if class_variable_get(:@@pushables).include? key
     end
+
+		class_variable_get(:@@associations).each_pair do |key, value|
+			define_method key do
+				return ::GitHub::Fetchers.const_get(self.class).send(:"association_#{key}")
+			end
+		end
     
     define_method :save do
       @changed_attributes.clear
