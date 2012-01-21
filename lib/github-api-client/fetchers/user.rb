@@ -7,7 +7,7 @@ module GitHub
           request = Net::HTTP::Get.new "/users/#{login}"
           attributes = JSON.parse(http.request(request).body, symbolize_names: true)
         end
-        return ::GitHub::User.new.tap do |user|
+        ::GitHub::User.new.tap do |user|
           user.attributes = user.class.valid_attributes(attributes)
         end
       end
