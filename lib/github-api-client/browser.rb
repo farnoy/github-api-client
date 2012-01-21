@@ -10,6 +10,12 @@ module GitHub
       gh_uri = GitHub::Config::Options[:server]||'api.github.com'
       "http://#{gh_uri}/"
     end
+
+		# Sets up a net/http connection
+		# @return [http transaction] transaction to github
+		def self.start(&block)
+			Net::HTTP.start(URI.parse(self.base_uri).host, :use_ssl => true, &block)
+		end
     
     # Runs HTTP GET request at given uri
     # @param [String] uri URI to be joined with base_uri and requested

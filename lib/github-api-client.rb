@@ -33,6 +33,11 @@ Dir[File.expand_path("github-api-client/resources/*.rb", File.dirname(__FILE__))
 	require lib
 end
 
+# Fetchers
+Dir[File.expand_path("github-api-client/fetchers/*.rb", File.dirname(__FILE__))].each do |lib|
+	require lib
+end
+
 #unless $user = GitHub::User.where(GitHub::Config::Secrets).first
 #  $user = GitHub::User.create(GitHub::Config::Secrets)
 #end if GitHub::Config::Secrets
