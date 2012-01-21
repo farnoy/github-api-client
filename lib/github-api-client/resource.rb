@@ -35,7 +35,7 @@ module Resource
 
     class_variable_get(:@@associations).each_pair do |key, value|
       define_method key do
-        return ::GitHub::Fetchers.const_get(self.class).send(:"association_#{key}")
+        return ::GitHub::Fetchers.const_get(self.class.name.to_s.split('::').last.to_sym).send(:"association_#{key}", self)
       end
     end
     
