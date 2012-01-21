@@ -12,6 +12,7 @@ require 'active_record'
 require 'core_ext/habtm'
 require 'rainbow'
 require 'github-api-client/config'
+require 'github-api-client/strategy'
 
 require 'github-api-client/base'
 #require 'github-api-client/user'
