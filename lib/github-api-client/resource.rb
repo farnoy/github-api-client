@@ -17,7 +17,7 @@ module Resource
     end
     
     class_variable_get(:@@attributes).each_pair do |key, value|
-      method_name = (if value.class == TrueClass then "#{key}?"; else key; end)
+      method_name = (if value == :boolean then "#{key}?"; else key; end)
       define_method method_name do
         return self.instance_variable_get(:@attributes)[key]
       end
