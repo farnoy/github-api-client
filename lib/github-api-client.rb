@@ -45,6 +45,11 @@ end
 #end if GitHub::Config::Secrets
 
 
+# Strategies
+require 'github-api-client/strategies/ask'
+GitHub::Config::Options[:strategy] = GitHub::Strategies::Ask # GitHub::CachingStrategy
+
+
 # General placeholder for all of the GitHub API sweets
 module GitHub
 end
