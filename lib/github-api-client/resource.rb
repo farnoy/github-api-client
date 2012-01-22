@@ -48,6 +48,7 @@ module Resource
       instance_variable_get(:@attributes).each do |key, value|
         value = "\"#{value.truncate(20, separator: ' ')}\"" if value.is_a? String
         s += " #{key}: #{value}" if not value.to_s.empty?
+        s += "," unless key == instance_variable_get(:@attributes).keys.last
       end
       s += ">"
     end
