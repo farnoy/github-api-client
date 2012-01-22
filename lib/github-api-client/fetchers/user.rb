@@ -28,10 +28,12 @@ module GitHub
             attributes = Fetchers.parse(http.request(request).body)
           end
 
-          attributes.each do |repo|
-            permalink = repo[:owner][:login] + '/' + repo[:name]
-            models << Models::Repository.find_or_create_by_permalink(permalink)
-            models.last.update_attributes(Resources::Repository.valid_attributes(repo))
+          ActiveRecord::Base.transaction do
+            attributes.each do |repo|
+              permalink = repo[:owner][:login] + '/' + repo[:name]
+              models << Models::Repository.find_or_create_by_permalink(permalink)
+              models.last.update_attributes(Resources::Repository.valid_attributes(repo))
+            end
           end
         end
         collection = []
