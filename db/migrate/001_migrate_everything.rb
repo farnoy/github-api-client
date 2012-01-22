@@ -8,6 +8,10 @@ class MigrateEverything < ActiveRecord::Migration
         klass.class_variable_get(:@@attributes).each_pair do |key, value|
           table.send(value, key)
         end
+
+        klass.class_variable_get(:@@associations).each_pair do |key, value|
+          table.references value.first unless value.first.nil?
+        end
       end
     end
   end
