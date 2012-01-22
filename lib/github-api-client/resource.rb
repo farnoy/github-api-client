@@ -35,7 +35,7 @@ module Resource
 
     class_variable_get(:@@associations).each_pair do |key, value|
       define_method key do
-        return ::GitHub::Fetchers.const_get(self.class.name.to_s.split('::').last.to_sym).send(:"association_#{key}", self)
+        return GitHub::Fetchers.const_get(GitHub::Fetchers::Helpers.const_name(self)).send(:"association_#{key}", self)
       end
     end
     
@@ -47,8 +47,10 @@ module Resource
       s = "#<Resource:#{self.class.to_s.split('::').last}"
       instance_variable_get(:@attributes).each do |key, value|
         value = "\"#{value.truncate(20, separator: ' ')}\"" if value.is_a? String
-        s += " #{key}: #{value}" if not value.to_s.empty?
-        s += "," unless key == instance_variable_get(:@attributes).keys.last
+        if not value.to_s.empty?
+          s += " #{key}: #{value}"
+          s += "," unless key == instance_variable_get(:@attributes).keys.last
+        end
       end
       s += ">"
     end

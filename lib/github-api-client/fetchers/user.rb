@@ -13,19 +13,34 @@ module GitHub
             model.update_attributes(Resources::User.valid_attributes(attributes))
           end
         end
-        user = Resources::User.new.tap do |user|
-          user.attributes = user.class.valid_attributes(attributes)
+        Resources::User.new.tap do |user|
+          user.attributes = model.attributes.symbolize_keys!
         end
-        return model
       end
 
       def self.association_repositories(user)
         attributes = {}
-        Browser.start do |http|
-          request = Net::HTTP::Get.new "/users/#{user.login}/repos"
-          attributes = Fetchers.parse(http.request(request).body)
+        models = (if um = Models::User.find_by_name(user.name) then um.repositories else []; end)
+        should_refresh = (if not models.empty? then Config::Options[:strategy].should_refresh?(models); else false; end)
+        if models.empty? or should_refresh
+          Browser.start do |http|
+            request = Net::HTTP::Get.new "/users/#{user.login}/repos"
+            attributes = Fetchers.parse(http.request(request).body)
+          end
+
+          attributes.each do |repo|
+            permalink = repo[:owner][:login] + '/' + repo[:name]
+            models << Models::Repository.find_or_create_by_permalink(permalink)
+            models.last.update_attributes(Resources::Repository.valid_attributes(repo))
+          end
         end
-        # further iterate and create Resources::Repository
+        collection = []
+        models.each do |model|
+          collection << Resources::Repository.new.tap do |repo|
+            repo.attributes = Resources::Repository.valid_attributes(model.attributes.symbolize_keys!)
+          end
+        end
+        return collection
       end
     end
   end
