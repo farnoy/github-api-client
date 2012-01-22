@@ -47,6 +47,8 @@ end
 
 # Strategies
 require 'github-api-client/strategies/ask'
+require 'github-api-client/strategies/remote'
+require 'github-api-client/strategies/local'
 GitHub::Config::Options[:strategy] = GitHub::Strategies::Ask # GitHub::CachingStrategy
 
 
