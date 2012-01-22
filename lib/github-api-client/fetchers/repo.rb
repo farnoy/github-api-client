@@ -6,7 +6,8 @@ module GitHub
           attributes = {}
           name = permalink.split('/').last
           owner = Models::User.find_by_login(permalink.split('/').first)
-          model = owner.repositories.find_by_name(name)
+          model = owner.repositories.find_by_name(name) if owner
+          model ||= nil
           should_refresh = (if model then Config::Options[:strategy].should_refresh?(model); else false; end) # refactor
           if not model or should_refresh
             Browser.start do |http|
