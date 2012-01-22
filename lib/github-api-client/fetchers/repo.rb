@@ -4,7 +4,9 @@ module GitHub
       class << self
         def get(permalink)
           attributes = {}
-          model = Models::Repository.find_by_permalink(permalink)
+          name = permalink.split('/').last
+          owner = Models::User.find_by_login(permalink.split('/').first)
+          model = owner.repositories.find_by_name(name)
           should_refresh = (if model then Config::Options[:strategy].should_refresh?(model); else false; end) # refactor
           if not model or should_refresh
             Browser.start do |http|
@@ -15,7 +17,7 @@ module GitHub
             end
           end
           repo = Resources::Repository.new.tap do |repo|
-            repo.attributes = Resources::Repository.valid_attributes(attributes)
+            repo.attributes = Resources::Repository.valid_attributes(model.attributes.symbolize_keys)
           end
         end
       end
