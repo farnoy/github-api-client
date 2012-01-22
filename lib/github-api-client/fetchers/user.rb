@@ -4,19 +4,18 @@ module GitHub
       def self.get(login)
         attributes = {}
         model = Models::User.find_by_login(login)
-        unless model
+        should_refresh = (if model then Config::Options[:strategy].should_refresh?(model); else false; end)
+        if not model or should_refresh
           Browser.start do |http|
             request = Net::HTTP::Get.new "/users/#{login}"
             attributes = Fetchers.parse(http.request(request).body)
+            model = Models::User.find_or_create_by_login(login)
+            model.update_attributes(Resources::User.valid_attributes(attributes))
           end
-        else
-          # optional, but whatever
-          attributes = Resources::User.valid_attributes(model.attributes)
         end
         user = Resources::User.new.tap do |user|
           user.attributes = user.class.valid_attributes(attributes)
         end
-        model ||= Models::User.create(user.attributes)
         return model
       end
 
