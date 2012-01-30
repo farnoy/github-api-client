@@ -29,7 +29,7 @@ module Resource
 
     define_singleton_method :valid_attributes do |options|
       options.select do |element|
-        class_variable_get(:@@attributes).include? element
+        class_variable_get(:@@attributes).include?(element) or element == :id
       end
     end
 
@@ -47,7 +47,7 @@ module Resource
       s = "#<Resource:#{self.class.to_s.split('::').last}"
       instance_variable_get(:@attributes).each do |key, value|
         value = "\"#{value.truncate(20, separator: ' ')}\"" if value.is_a? String
-        if not value.to_s.empty?
+        if not value.to_s.empty? and not (key == :id)
           s += " #{key}: #{value}"
           s += "," unless key == instance_variable_get(:@attributes).keys.last
         end
