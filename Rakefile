@@ -13,22 +13,6 @@ end
 require 'rake'
 include Rake::DSL # supressess jeweler warnings
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  gem.name = "github-api-client"
-  gem.homepage = "http://github.com/okonski/github-api-client"
-  gem.license = "MIT"
-  gem.summary = %Q{Library for easy GitHub API browsing}
-  gem.description = %Q{Caches retrieved information to your user profile and reuses it when you query again.}
-  gem.email = "kuba@okonski.org"
-  gem.authors = ["Jakub Okoński"]
-  
-  gem.files = [Dir.glob('lib/**/*'), Dir.glob('db/**/*'), 'VERSION', 'Gemfile', 'Gemfile.lock']
-  gem.executables = ['api-browser.rb']
-  
-  gem.test_files = Dir.glob('features/**/*') + Dir.glob('spec/**/*')
-end
-
 desc 'run irb session against this library'
 task :irb do
   system 'irb -I./lib -r github-api-client'
