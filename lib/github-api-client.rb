@@ -19,6 +19,7 @@ require 'github-api-client/base'
 #require 'github-api-client/repo'
 #require 'github-api-client/organization'
 require 'github-api-client/browser'
+require 'github-api-client/helpers'
 
 # Resources
 require 'github-api-client/resource'
