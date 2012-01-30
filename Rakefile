@@ -18,15 +18,11 @@ task :irb do
   system 'irb -I./lib -r github-api-client'
 end
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb']
-end
-
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+desc 'run test suite'
+task :tests do
+  Dir[File.dirname(__FILE__) + '/spec/*_spec.rb'].each do |file|
+    require file
+  end
 end
 
 require 'cucumber/rake/task'
