@@ -9,11 +9,6 @@ module GitHub
       :secrets    => ENV['HOME'] + "/.github" + "/secrets.yml"
     } 
     
-    Version = File.read(
-      ROOT + "/VERSION"
-    )
-    VERSION = Version
-    
     # Secrets array, uses env vars if defined
     Secrets = case
     when ENV['GITHUB_USER'] && ENV['GITHUB_TOKEN']

@@ -11,6 +11,7 @@ require 'singleton'
 require 'active_record'
 require 'core_ext/habtm'
 require 'rainbow'
+require 'github-api-client/version'
 require 'github-api-client/config'
 require 'github-api-client/strategy'
 
