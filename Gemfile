@@ -13,5 +13,4 @@ group :development do
   gem "yard", ">= 0.6.0"
   gem "cucumber", ">= 1.1.4"
   gem "jeweler", ">= 1.6.4"
-  gem "rcov", ">= 0.9.11"
 end
