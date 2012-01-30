@@ -3,7 +3,7 @@ module GitHub
     module Ask
       class << self
         def should_refresh?(model)
-          puts "Should I refresh #{Fetchers::Helpers.const_name(model)}? [y/n]"
+          puts "Should I refresh #{Helpers.const_name(model)}? [y/n]"
           return gets.chomp == 'y'
         end
 

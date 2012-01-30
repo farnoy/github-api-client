@@ -35,7 +35,7 @@ module Resource
 
     class_variable_get(:@@associations).each_pair do |key, value|
       define_method key do
-        return GitHub::Fetchers.const_get(GitHub::Fetchers::Helpers.const_name(self)).send(:"association_#{key}", self)
+        return GitHub::Fetchers.const_get(GitHub::Helpers.const_name(self)).send(:"association_#{key}", self)
       end
     end
     
