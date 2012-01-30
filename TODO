@@ -3,3 +3,4 @@
   | writing GitHub::Fetchers::Repository.get(resource_user.login + '/' + resource_user.repos.select{|repo| repo.name == 'github-api-client'}) # is not fun!
   | rethink design fetchers?
 * helpers for choosing strategy (maybe providing short descriptions?)
+* use minitest for testing with rspec matchers
