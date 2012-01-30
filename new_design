@@ -1,4 +1,0 @@
-GitHub::User #=> GitHub::Frontend::User
-GitHub::Storage::User #=> AR::Base
-GitHub::Middleware::Fetchers::User
-GitHub::Middleware::Pushers::User
