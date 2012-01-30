@@ -29,6 +29,11 @@ Jeweler::Tasks.new do |gem|
   gem.test_files = Dir.glob('features/**/*') + Dir.glob('spec/**/*')
 end
 
+desc 'run irb session against this library'
+task :irb do
+  system 'irb -I./lib -r github-api-client'
+end
+
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
