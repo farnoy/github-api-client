@@ -1,0 +1,18 @@
+github-api-client NEWS -- history of user-visible changes
+updated at 2011/01/30
+
+Version 0.4.0.pre
+* This version serves the purpose of showing new features and new design that github-api-client implemented recently
+* New design
+  focuses on splitting the logic into:
+    - Models (backend)      - generally hidden from end-user
+    - Fetchers (frontend)   - retrieve data from the site and store them locally using strategies
+      * Strategy            - defines when to refresh data
+    - Resources (frontend)  - light objects with @attributes hash and defined accessors for fields (also for editable fields)
+
+* Resource description
+  classes like Repository or User are now inheriting from Resource class which generates accessor methods for them and more
+
+* Fully dynamic models and migrations generation
+  taking advantage from using Resource classes to describe API resources, migrations now create tables for every resource
+  models also include associations defined in Resource classes
