@@ -43,6 +43,10 @@ module Resource
       @changed_attributes.clear
     end
 
+    define_method :model do
+      GitHub::Helpers.const_at(GitHub::Helpers.const_name(self), GitHub::Models).find(instance_variable_get(:@attributes)[:id])
+    end
+
     define_method :inspect do
       s = "#<Resource:#{self.class.to_s.split('::').last}"
       instance_variable_get(:@attributes).each do |key, value|
