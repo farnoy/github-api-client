@@ -34,7 +34,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("sqlite3", [">= 1.3.5"])
   s.add_runtime_dependency("OptionParser", [">= 0.5.1"])
 
-  s.add_development_dependency("rspec", [">= 2.7.0"])
+  s.add_development_dependency("minitest", [">= 2.11.0"])
+  s.add_development_dependency("rspec-expectations", [">= 2.7.0"])
   s.add_development_dependency("mocha", [">= 0.10.0"])
   s.add_development_dependency("yard", [">= 0.6.0"])
   s.add_development_dependency("cucumber", [">= 1.1.4"])
