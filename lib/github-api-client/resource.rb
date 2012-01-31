@@ -44,7 +44,7 @@ module Resource
     end
 
     define_method :model do
-      GitHub::Helpers.const_at(GitHub::Helpers.const_name(self), GitHub::Models).find(instance_variable_get(:@attributes)[:id])
+      GitHub::Helpers.const_at(GitHub::Helpers.const_name(self), GitHub::Storage).find(instance_variable_get(:@attributes)[:id])
     end
 
     define_method :inspect do
@@ -60,9 +60,9 @@ module Resource
     end
 
     # Create ActiveRecord model (for storing locally)
-    GitHub.const_set :Models, Module.new unless GitHub.const_defined? :Models
+    GitHub.const_set :Storage, Module.new unless GitHub.const_defined? :Storage
     const_name = self.name.to_s.split('::').last.to_sym
-    klass = GitHub::Models.const_set const_name, (Class.new(ActiveRecord::Base))
+    klass = GitHub::Storage.const_set const_name, (Class.new(ActiveRecord::Base))
     klass.class_exec do
       GitHub::Resources.const_get(const_name).class_variable_get(:@@associations).each_pair do |key, value|
         self.class_exec &value.last
