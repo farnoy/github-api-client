@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.summary = %{Library for easy GitHub API browsing}
 
   s.add_runtime_dependency("rainbow", [">= 1.1.3"])
-  s.add_runtime_dependency("rake", ["= 0.8.7"])
+  s.add_runtime_dependency("rake", "= 13.0.1")
   s.add_runtime_dependency("activerecord", [">= 3.1.0"])
   s.add_runtime_dependency("activesupport", [">= 3.1.0"])
   s.add_runtime_dependency("sqlite3", [">= 1.3.5"])
